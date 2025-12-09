@@ -51,23 +51,23 @@ El repositorio sigue una estructura organizada separando claramente cliente y se
 
 
 
-🛠️ Instalación y Configuración
+## 🛠️ Instalación y Configuración
+
 Sigue estos pasos para levantar el entorno de desarrollo localmente.
 
-Prerrequisitos
-Node.js (v14 o superior)
+### Prerrequisitos
+* **Node.js** (v14 o superior)
+* **NPM** (Manejador de paquetes)
+* **MongoDB** (Asegúrate de tener una instancia local corriendo o una URI de MongoDB Atlas)
 
-NPM (Manejador de paquetes)
+### 1. Configuración del Backend
 
-MongoDB (Instancia local o URI de MongoDB Atlas)
-
-1. Configuración del Backend
 Navega a la carpeta del servidor e instala las dependencias:
 
-Bash
-
+```bash
 cd tp-final-wnode
 npm install
+
 Variables de Entorno: Revisa el archivo data/conn.js para la conexión a la base de datos. Si es necesario, configura un archivo .env en la raíz de tp-final-wnode con: MONGO_URI=tu_string_de_conexion PORT=3000
 
 Iniciar Servidor:
