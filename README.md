@@ -1,149 +1,128 @@
-🐾 Sistema de Gestión de Adopciones – Pet Adoption App
+# 🐾 Sistema de Gestión de Adopciones (Pet Adoption App)
 
-Aplicación web Full Stack para gestionar el proceso de adopción de mascotas.
+![Status](https://img.shields.io/badge/Status-Completado-success)
+![Stack](https://img.shields.io/badge/Stack-MERN-blue)
 
-Los usuarios pueden registrarse, iniciar sesión, ver mascotas disponibles y crear solicitudes de adopción.
+Este proyecto es una aplicación web completa (**Full Stack**) diseñada para facilitar y gestionar el proceso de adopción de mascotas. El sistema permite a los usuarios explorar un catálogo de animales, registrarse y gestionar sus solicitudes, mientras que ofrece a los administradores herramientas eficientes para controlar el inventario de mascotas.
 
-Los administradores pueden gestionar el catálogo de animales y revisar las solicitudes.
+El sistema utiliza una arquitectura de **Monorepo lógico** dividido en dos partes principales:
 
-El sistema está dividido en dos partes principales:
+* **Backend (`tp-final-wnode`):** API RESTful robusta construida con Node.js y Express.
+* **Frontend (`tp-final-wfront`):** Single Page Application (SPA) moderna e interactiva construida con React.js.
 
-🛠️ Backend (tp-final-wnode): API RESTful construida con Node.js + Express
+---
 
-🎨 Frontend (tp-final-wfront): Cliente web interactivo construido con React
+## 🚀 Tecnologías Utilizadas
 
-🚀 Tecnologías Utilizadas
-Backend (tp-final-wnode)
+### Backend
+* ![NodeJS](https://img.shields.io/badge/Node.js-339933?style=flat&logo=nodedotjs&logoColor=white) **Node.js & Express:** Entorno de ejecución y framework para la construcción de la API REST.
+* ![MongoDB](https://img.shields.io/badge/MongoDB-47A248?style=flat&logo=mongodb&logoColor=white) **MongoDB:** Base de datos NoSQL (gestionada vía Mongoose).
+* **Mongoose:** ODM para modelado de datos.
+* **Joi:** Biblioteca para validación estricta de esquemas de datos.
+* **EJS:** Motor de plantillas (utilizado para vistas base del servidor).
 
-Node.js + Express – Servidor y lógica de negocio
+### Frontend
+* ![React](https://img.shields.io/badge/React-20232A?style=flat&logo=react&logoColor=61DAFB) **React.js:** Biblioteca principal para la construcción de interfaces de usuario dinámicas.
+* **React Router:** Gestión de rutas y navegación del lado del cliente.
+* **CSS Modules:** Metodología de estilos para encapsular el diseño de componentes.
 
-MongoDB – Base de datos NoSQL (via Mongoose o driver nativo)
+---
 
-Joi – Validación de datos mediante schemas
+## 📂 Estructura del Proyecto
 
-EJS – Motor de plantillas para vistas básicas (ej. página de error / index)
+El repositorio sigue una estructura organizada separando claramente cliente y servidor:
 
-Frontend (tp-final-wfront)
-
-React.js – Construcción de la interfaz de usuario
-
-CSS Modules – Estilos modulares, scoped por componente
-
-React Router – Navegación tipo SPA (Single Page Application)
-
-📂 Estructura del Proyecto
+```text
 /
-├── tp-final-wnode/           # Backend (API REST)
-│   ├── bin/www               # Punto de entrada del servidor
-│   ├── controllers/          # Lógica de endpoints (Adoptions, Pets, Users)
-│   ├── data/                 # Conexión a la DB y capa de datos
-│   ├── routes/               # Definición de rutas de la API
-│   ├── schemas/              # Validaciones con Joi
-│   └── tp2.postman*.json     # Colección de Postman para pruebas
+├── tp-final-wnode/          # 🟢 Backend (API REST)
+│   ├── bin/www              # Entry point del servidor
+│   ├── controllers/         # Controladores de lógica de negocio (Adoptions, Pets, Users)
+│   ├── data/                # Capa de acceso a datos y conexión DB
+│   ├── routes/              # Definición de endpoints de la API
+│   ├── schemas/             # Esquemas de validación (Joi)
+│   └── tp2.postman...json   # Colección de Postman para testing
 │
-└── tp-final-wfront/          # Frontend (Cliente React)
-    ├── public/               # Archivos estáticos
+└── tp-final-wfront/         # 🔵 Frontend (React Client)
+    ├── public/              # Assets estáticos públicos
     └── src/
-        ├── components/       # Componentes (Home, Login, Pet, etc.)
-        ├── assets/           # Imágenes y estilos (CSS Modules)
-        └── lib/              # Utilidades, helpers y constantes
+        ├── components/      # Componentes React reutilizables (Home, Login, Pet, etc.)
+        ├── assets/          # Recursos gráficos y hojas de estilo
+        └── lib/             # Utilidades, servicios y constantes
+
+
 
 🛠️ Instalación y Configuración
-✅ Prerrequisitos
+Sigue estos pasos para levantar el entorno de desarrollo localmente.
 
-Node.js v14 o superior
+Prerrequisitos
+Node.js (v14 o superior)
 
-npm
+NPM (Manejador de paquetes)
 
-MongoDB (instancia local o una URI remota)
+MongoDB (Instancia local o URI de MongoDB Atlas)
 
-1️⃣ Backend – tp-final-wnode
+1. Configuración del Backend
+Navega a la carpeta del servidor e instala las dependencias:
 
-Entrar a la carpeta e instalar dependencias:
+Bash
 
 cd tp-final-wnode
 npm install
+Variables de Entorno: Revisa el archivo data/conn.js para la conexión a la base de datos. Si es necesario, configura un archivo .env en la raíz de tp-final-wnode con: MONGO_URI=tu_string_de_conexion PORT=3000
 
+Iniciar Servidor:
 
-Configurar variables de entorno:
-
-Revisar data/conn.js para la configuración de la base de datos.
-
-Si el proyecto usa .env, crear un archivo .env en la raíz de tp-final-wnode, por ejemplo:
-
-PORT=3000
-MONGO_URI=mongodb://localhost:27017/pet_adoption
-
-
-Iniciar el servidor:
+Bash
 
 # Modo estándar
 npm start
 
-# O en desarrollo (si usás nodemon)
+# O con nodemon para desarrollo:
 nodemon bin/www
+El servidor correrá por defecto en http://localhost:3000.
 
+2. Configuración del Frontend
+En una nueva terminal, navega a la carpeta del cliente e instala las dependencias:
 
-Por defecto, el backend corre en http://localhost:3000 (o el puerto definido en bin/www / PORT).
-
-2️⃣ Frontend – tp-final-wfront
-
-En otra terminal, instalar e iniciar el cliente:
+Bash
 
 cd tp-final-wfront
 npm install
+Iniciar Cliente:
+
+Bash
+
 npm start
-
-
-La app React se abrirá en el navegador en http://localhost:3000
-(o en http://localhost:3001 si el 3000 ya está siendo usado por el backend).
+La aplicación se abrirá en http://localhost:3000 (o 3001 si el puerto 3000 está ocupado).
 
 📡 Documentación de la API
+Puedes importar el archivo tp2.postman_collection.json incluido en la carpeta del backend para probar los endpoints.
 
-El backend expone varios recursos principales.
-Podés importar el archivo tp2.postman_collection.json (en la carpeta del backend) en Postman para probar todos los endpoints.
+Endpoints Clave
+🐶 Mascotas (/api/pets)
+GET /pets - Listar todas las mascotas.
 
-🔗 A modo de referencia, se asume un prefijo base como /api.
+GET /pets/:id - Ver detalle de una mascota.
 
-🐶 Mascotas – /api/pets
+POST /pets - Crear una nueva mascota (Requiere permisos).
 
-GET /pets – Obtener lista de mascotas disponibles
+👤 Usuarios (/api/users)
+POST /users/register - Registro de usuario.
 
-POST /pets – Crear una nueva mascota (Admin)
+POST /users/login - Autenticación.
 
-GET /pets/:id – Obtener detalle de una mascota
+📝 Adopciones (/api/adoptions)
+POST /adoptions - Crear solicitud de adopción.
 
-👤 Usuarios – /api/users
+GET /adoptions - Ver solicitudes (Admin).
 
-POST /users/register – Registrar un nuevo usuario
+✨ Funcionalidades Destacadas
+✅ Autenticación Segura: Registro y Login completos.
 
-POST /users/login – Iniciar sesión de usuario
+✅ Catálogo Interactivo: Visualización de mascotas con paginación integrada.
 
-📝 Adopciones – /api/adoptions
+✅ Estados de Mascota: Control de flujo (Disponible -> En Proceso -> Adoptado).
 
-GET /adoptions – Listar solicitudes de adopción
+✅ Panel de Admin: Interfaces exclusivas para gestión de inventario y solicitudes.
 
-POST /adoptions – Crear una nueva solicitud de adopción
-
-✨ Funcionalidades Clave
-
-🔐 Autenticación de usuarios
-Registro e inicio de sesión para manejar solicitudes de forma segura.
-
-🐾 Catálogo de Mascotas con paginación
-Visualización de mascotas con componentes dedicados (ej. Pagination.jsx).
-
-🔄 Gestión de estados de mascotas
-Estados como: disponible, adoptado, etc.
-
-📊 Panel de Administración
-
-Alta de mascotas (AgregarMascota.jsx)
-
-Gestión de solicitudes (AdminAdoptionsPage.jsx)
-
-✅ Validaciones en frontend y backend
-
-Backend: schemas (ej. schemas/validatePets.js, schemas/validateUser.js)
-
-Frontend: validaciones antes de enviar formularios
+✅ Validaciones: Doble capa de validación (Frontend + Backend) para integridad de datos.
