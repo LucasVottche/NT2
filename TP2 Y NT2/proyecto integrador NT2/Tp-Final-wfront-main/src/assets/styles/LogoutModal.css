@@ -1,0 +1,91 @@
+/* src/assets/styles/LogoutModal.css */
+
+/* El fondo oscuro que tapa la página */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Oscuro semitransparente */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000; /* Por encima de todo, incluso del Navbar */
+    backdrop-filter: blur(3px); /* Efecto borroso moderno en el fondo */
+    animation: fadeIn 0.2s ease-out;
+}
+
+/* La tarjeta de confirmación */
+.modal-card {
+    background-color: #ffffff;
+    padding: 2rem;
+    border-radius: 16px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+    width: 90%;
+    max-width: 400px;
+    text-align: center;
+    border: 1px solid #e5e7eb;
+    animation: scaleUp 0.2s ease-out;
+}
+
+.modal-card h3 {
+    color: #2e7d32; /* Verde Corporativo */
+    margin-top: 0;
+    margin-bottom: 10px;
+    font-size: 1.5rem;
+}
+
+.modal-card p {
+    color: #4b5563;
+    margin-bottom: 2rem;
+    font-size: 1rem;
+}
+
+/* Botones del Modal */
+.modal-actions {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+}
+
+.btn-modal {
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    transition: all 0.2s;
+    font-size: 0.95rem;
+    flex: 1;
+}
+
+/* Botón Cancelar (Gris) */
+.btn-cancel {
+    background-color: #f3f4f6;
+    color: #374151;
+}
+.btn-cancel:hover {
+    background-color: #e5e7eb;
+}
+
+/* Botón Confirmar (Rojo suave o Verde - Usaremos Rojo para "Salir") */
+.btn-confirm {
+    background-color: #ef4444; /* Rojo porque es una acción de salida */
+    color: white;
+}
+.btn-confirm:hover {
+    background-color: #dc2626;
+    box-shadow: 0 4px 10px rgba(220, 38, 38, 0.2);
+}
+
+/* Animaciones */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes scaleUp {
+    from { transform: scale(0.9); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}

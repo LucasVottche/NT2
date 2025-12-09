@@ -1,0 +1,90 @@
+/* src/assets/styles/AgregarMascota.css */
+
+/* 1. EL CONTENEDOR (LA TARJETA) */
+.cargar-mascotas {
+    background-color: #ffffff;
+    padding: 2.5rem;
+    border-radius: 16px;
+    /* Sombra más marcada para separar del fondo */
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1); 
+    border: 1px solid #e2e8f0; 
+    max-width: 800px;
+    margin: 3rem auto;
+}
+
+/* 2. TÍTULOS */
+.cargar-mascotas h3, .cargar-mascotas h2 {
+    color: #2e7d32; /* Verde directo */
+    font-weight: 700;
+    margin-bottom: 2rem;
+    text-align: center;
+    font-size: 1.8rem;
+}
+
+/* 3. INPUTS, SELECTS Y TEXTAREA (Mejor contraste) */
+.cargar-mascotas input, 
+.cargar-mascotas select, 
+.cargar-mascotas textarea {
+    width: 100%;
+    /* Fondo ligeramente gris para diferenciar del blanco */
+    background-color: #f8fafc; 
+    /* Borde gris visible */
+    border: 1px solid #94a3b8; 
+    border-radius: 8px;
+    padding: 12px 16px;
+    font-size: 1rem;
+    color: #334155;
+    font-family: 'Inter', sans-serif;
+    transition: all 0.2s ease-in-out;
+}
+
+/* Efecto al hacer clic (Focus) */
+.cargar-mascotas input:focus, 
+.cargar-mascotas select:focus, 
+.cargar-mascotas textarea:focus {
+    background-color: #ffffff;
+    border-color: #2e7d32; /* Borde verde al escribir */
+    box-shadow: 0 0 0 3px rgba(46, 125, 50, 0.15); 
+    outline: none;
+}
+
+/* Etiquetas (Labels) */
+.cargar-mascotas label {
+    font-weight: 600;
+    color: #475569; /* Gris oscuro legible */
+    margin-bottom: 0.5rem;
+    display: block;
+    font-size: 0.95rem;
+    margin-top: 1rem;
+}
+
+/* 4. BOTÓN GUARDAR (Arreglo definitivo: Verde) */
+/* Usamos selectores específicos para ganar prioridad sobre Bootstrap */
+.cargar-mascotas button[type="submit"],
+.cargar-mascotas .btn-primary,
+.cargar-mascotas .btn {
+    background-color: #2e7d32 !important; /* Verde forzado */
+    border: 1px solid #2e7d32 !important;
+    color: #ffffff !important; /* Texto blanco */
+    font-weight: 700;
+    padding: 14px 20px;
+    font-size: 1.1rem;
+    border-radius: 8px;
+    margin-top: 2rem;
+    width: 100%;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    transition: background-color 0.2s;
+}
+
+.cargar-mascotas button[type="submit"]:hover,
+.cargar-mascotas .btn-primary:hover {
+    background-color: #1b5e20 !important; /* Verde oscuro al pasar mouse */
+    border-color: #1b5e20 !important;
+}
+
+.cargar-mascotas button:disabled {
+    background-color: #a5d6a7 !important; /* Verde pálido si carga */
+    border-color: #a5d6a7 !important;
+    cursor: not-allowed;
+}

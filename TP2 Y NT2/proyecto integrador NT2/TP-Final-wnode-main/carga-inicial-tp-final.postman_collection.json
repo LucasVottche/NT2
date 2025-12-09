@@ -1,0 +1,150 @@
+{
+  "info": {
+    "_postman_id": "5c6f7d2e-2c4d-4f0e-9b4f-88c10f5c9911",
+    "name": "TP FINAL - Carga Inicial",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Usuarios - Crear Admin",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"email\": \"admin@refugio.com\",\n  \"firstName\": \"Admin\",\n  \"lastName\": \"Principal\",\n  \"role\": \"administrador\",\n  \"age\": 30,\n  \"password\": \"admin123\"\n}"
+        },
+        "url": "http://localhost:5000/api/users/register"
+      }
+    },
+    {
+      "name": "Usuarios - Crear Usuario 1",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"email\": \"juan@correo.com\",\n  \"firstName\": \"Juan\",\n  \"lastName\": \"Lopez\",\n  \"role\": \"usuario\",\n  \"age\": 25,\n  \"password\": \"juan1234\"\n}"
+        },
+        "url": "http://localhost:5000/api/users/register"
+      }
+    },
+    {
+      "name": "Usuarios - Crear Usuario 2",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"email\": \"maria@correo.com\",\n  \"firstName\": \"Maria\",\n  \"lastName\": \"Gomez\",\n  \"role\": \"usuario\",\n  \"age\": 28,\n  \"password\": \"maria123\"\n}"
+        },
+        "url": "http://localhost:5000/api/users/register"
+      }
+    },
+    {
+      "name": "Login - Admin",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"email\": \"admin@refugio.com\",\n  \"password\": \"admin123\"\n}"
+        },
+        "url": "http://localhost:5000/api/users/login"
+      }
+    },
+    {
+      "name": "Login - Usuario Juan",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"email\": \"juan@correo.com\",\n  \"password\": \"juan1234\"\n}"
+        },
+        "url": "http://localhost:5000/api/users/login"
+      }
+    },
+    {
+      "name": "Mascotas - Crear Luna",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Luna\",\n  \"specie\": \"Perro\",\n  \"race\": \"Labrador\",\n  \"gender\": \"Hembra\",\n  \"age\": 3,\n  \"description\": \"Muy cariñosa y juguetona.\",\n  \"province\": \"Buenos Aires\",\n  \"status\": \"available\"\n}"
+        },
+        "url": "http://localhost:5000/api/pets/addPet"
+      }
+    },
+    {
+      "name": "Mascotas - Crear Milo",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Milo\",\n  \"specie\": \"Gato\",\n  \"race\": \"Siames\",\n  \"gender\": \"Macho\",\n  \"age\": 2,\n  \"description\": \"Tranquilo e ideal para departamento.\",\n  \"province\": \"CABA\",\n  \"status\": \"available\"\n}"
+        },
+        "url": "http://localhost:5000/api/pets/addPet"
+      }
+    },
+    {
+      "name": "Mascotas - Crear Toby",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Toby\",\n  \"specie\": \"Perro\",\n  \"race\": \"Mestizo\",\n  \"gender\": \"Macho\",\n  \"age\": 4,\n  \"description\": \"Se lleva bien con niños y otros animales.\",\n  \"province\": \"Córdoba\",\n  \"status\": \"available\"\n}"
+        },
+        "url": "http://localhost:5000/api/pets/addPet"
+      }
+    },
+    {
+      "name": "Mascotas - Crear Mora",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Mora\",\n  \"specie\": \"Gato\",\n  \"race\": \"Criollo\",\n  \"gender\": \"Hembra\",\n  \"age\": 1,\n  \"description\": \"Muy curiosa y activa.\",\n  \"province\": \"Santa Fe\",\n  \"status\": \"available\"\n}"
+        },
+        "url": "http://localhost:5000/api/pets/addPet"
+      }
+    },
+    {
+      "name": "Adopciones - Crear adopción ejemplo",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"petId\": \"ID_DE_MASCOTA\",\n  \"adopterId\": \"ID_DE_USUARIO\"\n}"
+        },
+        "url": "http://localhost:5000/api/adoptions/add-adoption"
+      },
+      "description": "IMPORTANTE: reemplazar ID_DE_MASCOTA y ID_DE_USUARIO luego de crear usuarios y mascotas."
+    }
+  ]
+}

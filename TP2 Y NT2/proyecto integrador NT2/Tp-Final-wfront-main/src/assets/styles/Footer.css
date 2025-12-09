@@ -1,0 +1,19 @@
+.footer {
+    width: 100%;
+    padding: 2rem 0;
+    background-color: var(--primary); /* Usamos la variable global */
+    color: white;
+    margin-top: auto; /* Empuja el footer al fondo si hay poco contenido */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container-footer p {
+    margin: 0;
+    font-size: 0.9rem;
+    text-align: center;
+    opacity: 0.9;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+}

@@ -1,0 +1,130 @@
+/* src/assets/styles/Register.css */
+
+/* 1. CENTRADO Y CONTENEDOR */
+.form-container, .container-form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 85vh;
+  padding: 20px;
+  background-color: var(--bg-color);
+}
+
+/* 2. LA TARJETA (CARD) */
+.form {
+  background-color: #ffffff;
+  padding: 2.5rem;
+  border-radius: 16px;
+  /* Misma sombra flotante que los otros formularios */
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+  border: 1px solid #e2e8f0;
+  width: 100%;
+  max-width: 550px; /* Un poco más ancho para que entren edad y rol juntos */
+  text-align: center;
+}
+
+/* 3. TÍTULO */
+.form h2 {
+  margin-bottom: 2rem;
+  font-size: 1.8rem;
+  color: #2e7d32; /* Verde Corporativo */
+  font-weight: 700;
+}
+
+/* 4. LABELS */
+.form label {
+  display: block;
+  text-align: left;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  color: #475569;
+  font-size: 0.95rem;
+}
+
+/* 5. INPUTS Y SELECTS */
+.form input, .form select {
+  width: 100%;
+  padding: 12px 16px;
+  margin-bottom: 0.5rem; /* Reducimos margen porque abajo va el mensaje de error */
+  background-color: #f8fafc; /* Gris suave */
+  border: 1px solid #94a3b8;
+  border-radius: 8px;
+  font-size: 1rem;
+  color: #334155;
+  transition: all 0.2s ease;
+  box-sizing: border-box;
+}
+
+.form input:focus, .form select:focus {
+  outline: none;
+  background-color: #ffffff;
+  border-color: #2e7d32;
+  box-shadow: 0 0 0 4px rgba(46, 125, 50, 0.1);
+}
+
+/* 6. MENSAJES DE ERROR (Estos SÍ deben ser rojos) */
+.form p {
+  color: #ef4444;
+  font-size: 0.85rem;
+  text-align: left;
+  margin-top: 2px;
+  margin-bottom: 1.5rem; /* El espacio lo da el error ahora */
+  font-weight: 500;
+  min-height: 10px; /* Para que no salte tanto si aparece/desaparece */
+}
+
+/* 7. BOTÓN REGISTRARME (VERDE) */
+.form button {
+  width: 100%;
+  padding: 14px;
+  background-color: #2e7d32 !important;
+  color: #ffffff !important;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  cursor: pointer;
+  margin-top: 1rem;
+  box-shadow: 0 4px 10px rgba(46, 125, 50, 0.2);
+  transition: transform 0.2s, background-color 0.2s;
+}
+
+.form button:hover {
+  background-color: #1b5e20 !important;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(46, 125, 50, 0.3);
+}
+
+.form button:disabled {
+  background-color: #a5d6a7 !important;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* 8. ARREGLO DEL FOOTER ("¿Ya tienes cuenta?") */
+/* Usamos una clase específica para sobreescribir el color rojo de los párrafos */
+
+.form-footer {
+    margin-top: 2rem;
+    border-top: 1px solid #f1f5f9; /* Una línea sutil para separar */
+    padding-top: 1.5rem;
+}
+
+.form-footer p {
+    color: #64748b !important; /* Gris neutro (YA NO ES ROJO) */
+    text-align: center;
+    font-size: 0.95rem;
+    margin: 0;
+}
+
+.form-footer a {
+    color: #2e7d32; /* Verde */
+    font-weight: 700;
+    text-decoration: none;
+    margin-left: 5px;
+}
+
+.form-footer a:hover {
+    text-decoration: underline;
+    color: #1b5e20;
+}

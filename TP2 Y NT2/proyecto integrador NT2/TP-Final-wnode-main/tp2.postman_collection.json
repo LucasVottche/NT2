@@ -1,0 +1,433 @@
+{
+  "info": {
+    "_postman_id": "5d082532-78ca-4b44-8567-0cc6a362fc80",
+    "name": "ort",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "16463882"
+  },
+  "item": [
+    {
+      "name": "tp2",
+      "item": [
+        {
+          "name": "usuario",
+          "item": [
+            {
+              "name": "registrar usuario",
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"email\": \"m@test.com\",\r\n  \"firstName\": \"m\",\r\n  \"lastName\": \"r\",\r\n  \"role\": \"administrador\",\r\n  \"age\": 25,\r\n  \"password\": \"testtest\"\r\n}\r\n",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://localhost:3001/api/users/register",
+                  "protocol": "http",
+                  "host": ["localhost"],
+                  "port": "3001",
+                  "path": ["api", "users", "register"]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "users",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "GET",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"email\": \"m@test.com\",\r\n  \"firstName\": \"m\",\r\n  \"lastName\": \"r\",\r\n  \"role\": \"administrador\",\r\n  \"age\": 25,\r\n  \"password\": \"testtest\"\r\n}\r\n",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://localhost:5000/api/users/",
+                  "protocol": "http",
+                  "host": ["localhost"],
+                  "port": "5000",
+                  "path": ["api", "users", ""]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "login",
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"email\": \"testasd@gmail.com\",\r\n  \"password\": \"testasd\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://localhost:5000/api/users/login",
+                  "protocol": "http",
+                  "host": ["localhost"],
+                  "port": "5000",
+                  "path": ["api", "users", "login"]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "pets",
+          "item": [
+            {
+              "name": "pets",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "GET",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"name\": \"Max\",\r\n  \"specie\": \"Dog\",\r\n  \"description\": \" description Dog\",\r\n  \"race\": \"Golden Retriever\",\r\n  \"gender\": \"Male\",\r\n  \"age\": 3,\r\n  \"province\": \"Buenos Aires\"\r\n}\r\n",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://localhost:5000/api/pets/",
+                  "protocol": "http",
+                  "host": ["localhost"],
+                  "port": "5000",
+                  "path": ["api", "pets", ""]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "pet",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "GET",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"name\": \"Max\",\r\n  \"specie\": \"Dog\",\r\n  \"description\": \" description Dog\",\r\n  \"race\": \"Golden Retriever\",\r\n  \"gender\": \"Male\",\r\n  \"age\": 3,\r\n  \"province\": \"Buenos Aires\"\r\n}\r\n",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://localhost:5000/api/pets/",
+                  "protocol": "http",
+                  "host": ["localhost"],
+                  "port": "5000",
+                  "path": ["api", "pets", ""]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "adoptables",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "GET",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"name\": \"Max\",\r\n  \"specie\": \"Dog\",\r\n  \"description\": \" description Dog\",\r\n  \"race\": \"Golden Retriever\",\r\n  \"gender\": \"Male\",\r\n  \"age\": 3,\r\n  \"province\": \"Buenos Aires\"\r\n}\r\n",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://localhost:5000/api/pets/adoptables",
+                  "protocol": "http",
+                  "host": ["localhost"],
+                  "port": "5000",
+                  "path": ["api", "pets", "adoptables"]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "adopciones",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "GET",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"name\": \"Max\",\r\n  \"specie\": \"Dog\",\r\n  \"description\": \" description Dog\",\r\n  \"race\": \"Golden Retriever\",\r\n  \"gender\": \"Male\",\r\n  \"age\": 3,\r\n  \"province\": \"Buenos Aires\"\r\n}\r\n",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://localhost:5000/api/pets/adopciones",
+                  "protocol": "http",
+                  "host": ["localhost"],
+                  "port": "5000",
+                  "path": ["api", "pets", "adopciones"]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "addPet",
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"name\": \"Max\",\r\n  \"specie\": \"Dog\",\r\n  \"description\": \" description Dog\",\r\n  \"race\": \"Golden Retriever\",\r\n  \"gender\": \"Male\",\r\n  \"age\": 3,\r\n  \"province\": \"Buenos Aires\"\r\n}\r\n",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://localhost:3001/api/pets/addPet",
+                  "protocol": "http",
+                  "host": ["localhost"],
+                  "port": "3001",
+                  "path": ["api", "pets", "addPet"]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "update",
+              "request": {
+                "method": "PUT",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"name\": \"13332Max\",\r\n  \"specie\": \"D123333og\",\r\n  \"description\": \" des1212cription Dog\",\r\n  \"race\": \"G333ol1212den Retriever\",\r\n  \"gender\": \"Male\",\r\n  \"age\": 123,\r\n  \"province\": \"Buenos Aires\"\r\n}\r\n",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://localhost:5000/api/pets/updatePet/656123dc8d33bd0db645129d",
+                  "protocol": "http",
+                  "host": ["localhost"],
+                  "port": "5000",
+                  "path": [
+                    "api",
+                    "pets",
+                    "updatePet",
+                    "656123dc8d33bd0db645129d"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "deletePet",
+              "request": {
+                "method": "DELETE",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"name\": \"Max\",\r\n  \"specie\": \"Dog\",\r\n  \"description\": \" description Dog\",\r\n  \"race\": \"Golden Retriever\",\r\n  \"gender\": \"Male\",\r\n  \"age\": 332,\r\n  \"province\": \"Buenos Aires\"\r\n}\r\n",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://localhost:5000/api/pets/deletePet/656123095800e1adf39e83b2",
+                  "protocol": "http",
+                  "host": ["localhost"],
+                  "port": "5000",
+                  "path": [
+                    "api",
+                    "pets",
+                    "deletePet",
+                    "656123095800e1adf39e83b2"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "adopcion",
+          "item": [
+            {
+              "name": "add-adoption",
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"petId\": \"656280990217afbaa252c816\",\r\n    \"adopterId\": \"656387749a1d64a9188ed28f\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://localhost:3001/api/adoptions/add-adoption",
+                  "protocol": "http",
+                  "host": ["localhost"],
+                  "port": "3001",
+                  "path": ["api", "adoptions", "add-adoption"]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "approve-adoption",
+              "request": {
+                "method": "PUT",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"petId\": \"656389c5a255fac05cbd8e11\",\r\n    \"adopterId\": \"656387749a1d64a9188ed28f\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://localhost:5000/api/adoptions/approve-adoption/65611062de0a0e675752f67d",
+                  "protocol": "http",
+                  "host": ["localhost"],
+                  "port": "5000",
+                  "path": [
+                    "api",
+                    "adoptions",
+                    "approve-adoption",
+                    "65611062de0a0e675752f67d"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "reject-adoption",
+              "request": {
+                "method": "DELETE",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"petId\": \"656389c5a255fac05cbd8e11\",\r\n    \"adopterId\": \"656387749a1d64a9188ed28f\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://localhost:5000/api/adoptions/reject-adoption/65611062de0a0e675752f67d",
+                  "protocol": "http",
+                  "host": ["localhost"],
+                  "port": "5000",
+                  "path": [
+                    "api",
+                    "adoptions",
+                    "reject-adoption",
+                    "65611062de0a0e675752f67d"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "delete-adoption",
+              "request": {
+                "method": "DELETE",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"petId\": \"656389c5a255fac05cbd8e11\",\r\n    \"adopterId\": \"656387749a1d64a9188ed28f\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://localhost:5000/api/adoptions/delete-adoption/65611062de0a0e675752f67d",
+                  "protocol": "http",
+                  "host": ["localhost"],
+                  "port": "5000",
+                  "path": [
+                    "api",
+                    "adoptions",
+                    "delete-adoption",
+                    "65611062de0a0e675752f67d"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "get",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "GET",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"petId\": \"656123d88d33bd0db645129c\",\r\n    \"adopterId\": \"656123dc8d33bd0db645129d\",\r\n    \"status\": \"awaiting\"\r\n  }",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://localhost:5000/api/adoptions/",
+                  "protocol": "http",
+                  "host": ["localhost"],
+                  "port": "5000",
+                  "path": ["api", "adoptions", ""]
+                }
+              },
+              "response": []
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

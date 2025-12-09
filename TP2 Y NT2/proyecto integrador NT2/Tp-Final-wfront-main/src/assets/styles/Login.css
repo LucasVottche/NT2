@@ -1,0 +1,107 @@
+/* src/assets/styles/Login.css */
+
+/* 1. CENTRADO VERTICAL Y HORIZONTAL */
+.container-form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 85vh; /* Ocupa casi toda la altura de la pantalla */
+  padding: 20px;
+  background-color: var(--bg-color); /* Asegura fondo gris claro */
+}
+
+/* 2. LA TARJETA (CARD) */
+.form {
+  background-color: #ffffff;
+  padding: 2.5rem;
+  border-radius: 16px;
+  /* Sombra flotante idéntica a Nueva Mascota */
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08); 
+  border: 1px solid #e2e8f0;
+  width: 100%;
+  max-width: 450px; /* Un poco más angosto que el de mascotas para login */
+  text-align: center;
+}
+
+/* 3. TÍTULO */
+.form h2 {
+  margin-bottom: 2rem;
+  font-size: 1.8rem;
+  color: #2e7d32; /* Verde Corporativo */
+  font-weight: 700;
+}
+
+/* 4. LABELS */
+.form label {
+  display: block;
+  text-align: left;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  color: #475569;
+  font-size: 0.95rem;
+}
+
+/* 5. INPUTS (Con fondo gris suave para contraste) */
+.form input {
+  width: 100%;
+  padding: 12px 16px;
+  margin-bottom: 1.5rem;
+  /* Fondo grisáceo para que se note el campo */
+  background-color: #f8fafc; 
+  border: 1px solid #94a3b8;
+  border-radius: 8px;
+  font-size: 1rem;
+  color: #334155;
+  transition: all 0.2s ease;
+  box-sizing: border-box;
+}
+
+/* Efecto Focus al escribir */
+.form input:focus {
+  outline: none;
+  background-color: #ffffff;
+  border-color: #2e7d32;
+  box-shadow: 0 0 0 4px rgba(46, 125, 50, 0.1);
+}
+
+/* 6. BOTÓN INGRESAR (VERDE SÓLIDO FORZADO) */
+.form button {
+  width: 100%;
+  padding: 14px;
+  /* Color verde directo sin variables para asegurar visibilidad */
+  background-color: #2e7d32 !important; 
+  color: #ffffff !important; /* Texto blanco */
+  border: none;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  cursor: pointer;
+  margin-top: 1rem;
+  box-shadow: 0 4px 10px rgba(46, 125, 50, 0.2);
+  transition: transform 0.2s, background-color 0.2s;
+}
+
+.form button:hover {
+  background-color: #1b5e20 !important; /* Verde más oscuro */
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(46, 125, 50, 0.3);
+}
+
+.form button:disabled {
+  background-color: #a5d6a7 !important;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* 7. MENSAJES DE ERROR Y LINKS */
+.form p {
+  color: #ef4444; /* Rojo error */
+  font-size: 0.9rem;
+  margin-top: 0.5rem;
+}
+
+/* Link de "Registrate aquí" */
+.form-footer p {
+    color: #64748b;
+    margin-top: 1.5rem;
+}

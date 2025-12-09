@@ -1,0 +1,29 @@
+.pagination {
+    display: flex;
+    justify-content: center; /* Centrado */
+    list-style: none;
+    padding: 2rem 0;
+    gap: 0.5rem;
+}
+  
+.pagination a {
+    text-decoration: none;
+    padding: 8px 16px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--text-dark);
+    background-color: var(--card-bg);
+    transition: all 0.2s ease;
+    font-weight: 500;
+}
+  
+.pagination a:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+}
+  
+.pagination a.active {
+    background-color: var(--primary);
+    color: white;
+    border-color: var(--primary);
+}

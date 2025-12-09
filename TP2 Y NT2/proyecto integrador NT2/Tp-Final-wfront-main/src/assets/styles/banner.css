@@ -1,0 +1,113 @@
+/* src/assets/styles/banner.css */
+
+.banner-container {
+    position: relative;
+    width: 100%;
+    height: 500px; /* Altura ideal para una portada */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    text-align: center;
+}
+
+/* La Imagen de Fondo */
+.banner-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Cubre todo sin deformarse */
+    z-index: 1;
+}
+
+/* El Filtro Oscuro (Overlay) */
+/* Esto hace que el texto blanco se lea clarito sobre cualquier foto */
+.banner-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.6));
+    z-index: 2;
+}
+
+/* El Contenido (Texto y Botón) */
+.banner-content {
+    position: relative;
+    z-index: 3; /* Por encima de la foto y el filtro */
+    max-width: 800px;
+    padding: 20px;
+    animation: fadeIn 1s ease-out;
+}
+
+/* Título Principal */
+.banner-content h1 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 3.5rem;
+    color: #ffffff;
+    font-weight: 800;
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+    line-height: 1.1;
+    text-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+
+.banner-content h1 .highlight {
+    color: #4ade80; /* Un verde clarito brillante para destacar "ADOPTA" */
+}
+
+/* Subtítulo */
+.banner-content p {
+    font-family: 'Inter', sans-serif;
+    font-size: 1.2rem;
+    color: #f0fdf4;
+    margin-bottom: 2rem;
+    font-weight: 500;
+}
+
+/* EL BOTÓN DE ACCIÓN */
+.btn-banner {
+    display: inline-block;
+    background-color: #2e7d32; /* Tu Verde Corporativo */
+    color: white;
+    padding: 16px 40px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    text-decoration: none;
+    border-radius: 50px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+    border: 2px solid transparent; /* Para evitar saltos */
+    transition: all 0.3s ease;
+}
+
+.btn-banner:hover {
+    background-color: #1b5e20;
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 15px 35px rgba(46, 125, 50, 0.4);
+    border-color: #4ade80; /* Borde brillante al pasar el mouse */
+}
+
+/* Animación de entrada suave */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Responsive (Celulares) */
+@media (max-width: 768px) {
+    .banner-container {
+        height: 400px; /* Un poco más bajo en celus */
+    }
+    
+    .banner-content h1 {
+        font-size: 2.2rem; /* Texto más chico */
+    }
+    
+    .btn-banner {
+        padding: 12px 30px;
+        font-size: 1rem;
+    }
+}

@@ -1,0 +1,38 @@
+/* Importamos fuentes modernas */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@500;600;700&display=swap');
+
+:root {
+  /* Paleta de Colores */
+  --primary: #2e7d32;       /* Verde Principal */
+  --primary-hover: #1b5e20; /* Verde Oscuro (Hover) */
+  --secondary: #ff9800;     /* Naranja (Acción secundaria) */
+  --bg-color: #f8f9fa;      /* Fondo General */
+  --card-bg: #ffffff;       /* Fondo Tarjetas */
+  --text-dark: #1f2937;     /* Texto Principal */
+  --text-light: #6b7280;    /* Texto Secundario */
+  --danger: #ef4444;        /* Rojo Error */
+  --border: #e5e7eb;        /* Bordes sutiles */
+  
+  /* Configuración */
+  --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --radius: 12px;
+}
+
+body {
+  margin: 0;
+  font-family: 'Inter', sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-dark);
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4 {
+  font-family: 'Poppins', sans-serif;
+  color: var(--text-dark);
+  margin-top: 0;
+}
+
+button {
+  font-family: 'Inter', sans-serif;
+  cursor: pointer;
+}

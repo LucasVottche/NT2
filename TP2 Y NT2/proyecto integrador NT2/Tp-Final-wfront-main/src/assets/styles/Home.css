@@ -1,0 +1,56 @@
+.main {
+    width: 100%;
+    overflow-x: hidden; /* Evita scroll horizontal indeseado */
+}
+
+.main-conteiner {
+    padding: 4rem 2rem; /* Espaciado interno en lugar de márgenes externos */
+    display: flex;
+    justify-content: center;
+    background-color: var(--bg-color);
+}
+
+.section {
+    display: flex;
+    flex-wrap: wrap; /* Permite que las columnas bajen en celular */
+    justify-content: center;
+    gap: 4rem; /* Espacio entre columnas */
+    max-width: 1200px;
+    width: 100%;
+}
+
+.section-1, .section-2 {
+    flex: 1; /* Ocupan el mismo espacio */
+    min-width: 300px; /* No se harán más pequeños que esto */
+    background: var(--card-bg);
+    padding: 2.5rem;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    text-align: center;
+    transition: transform 0.3s ease;
+}
+
+.section-1:hover, .section-2:hover {
+    transform: translateY(-5px); /* Pequeña animación al pasar el mouse */
+}
+
+.logo {
+    width: 80px;
+    height: auto;
+    margin-bottom: 1.5rem;
+}
+
+.section h2 {
+    font-size: 1.5rem;
+    color: var(--primary);
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.section p {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: var(--text-light);
+    text-align: center; /* Mejor lectura que justificado en web */
+}
