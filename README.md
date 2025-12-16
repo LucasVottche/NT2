@@ -1,128 +1,245 @@
-# 🐾 Sistema de Gestión de Adopciones (Pet Adoption App)
+# 🐾 Pet Adoption App — Full Stack (Node + React)
 
-![Status](https://img.shields.io/badge/Status-Completado-success)
-![Stack](https://img.shields.io/badge/Stack-MERN-blue)
+[![Node.js](https://img.shields.io/badge/Node.js-API%20REST-339933?logo=node.js\&logoColor=white)](#)
+[![Express](https://img.shields.io/badge/Express-Framework-black?logo=express\&logoColor=white)](#)
+[![MongoDB](https://img.shields.io/badge/MongoDB-Database-47A248?logo=mongodb\&logoColor=white)](#)
+[![React](https://img.shields.io/badge/React-Frontend-61DAFB?logo=react\&logoColor=000)](#)
 
-Este proyecto es una aplicación web completa (**Full Stack**) diseñada para facilitar y gestionar el proceso de adopción de mascotas. El sistema permite a los usuarios explorar un catálogo de animales, registrarse y gestionar sus solicitudes, mientras que ofrece a los administradores herramientas eficientes para controlar el inventario de mascotas.
-
-El sistema utiliza una arquitectura de **Monorepo lógico** dividido en dos partes principales:
-
-* **Backend (`tp-final-wnode`):** API RESTful robusta construida con Node.js y Express.
-* **Frontend (`tp-final-wfront`):** Single Page Application (SPA) moderna e interactiva construida con React.js.
+Aplicación web **Full Stack** para gestionar el proceso de adopción de mascotas.
+Incluye **API REST** (Node/Express + MongoDB) y **cliente React** con autenticación, catálogo y panel de administración.
 
 ---
 
-## 🚀 Tecnologías Utilizadas
+## 📌 Tabla de Contenidos
 
-### Backend
-* ![NodeJS](https://img.shields.io/badge/Node.js-339933?style=flat&logo=nodedotjs&logoColor=white) **Node.js & Express:** Entorno de ejecución y framework para la construcción de la API REST.
-* ![MongoDB](https://img.shields.io/badge/MongoDB-47A248?style=flat&logo=mongodb&logoColor=white) **MongoDB:** Base de datos NoSQL (gestionada vía Mongoose).
-* **Mongoose:** ODM para modelado de datos.
-* **Joi:** Biblioteca para validación estricta de esquemas de datos.
-* **EJS:** Motor de plantillas (utilizado para vistas base del servidor).
-
-### Frontend
-* ![React](https://img.shields.io/badge/React-20232A?style=flat&logo=react&logoColor=61DAFB) **React.js:** Biblioteca principal para la construcción de interfaces de usuario dinámicas.
-* **React Router:** Gestión de rutas y navegación del lado del cliente.
-* **CSS Modules:** Metodología de estilos para encapsular el diseño de componentes.
+* [Características](#-características)
+* [Arquitectura](#-arquitectura)
+* [Estructura del repositorio](#-estructura-del-repositorio)
+* [Stack tecnológico](#-stack-tecnológico)
+* [Instalación y ejecución](#-instalación-y-ejecución)
+* [Variables de entorno](#-variables-de-entorno)
+* [API y Postman](#-api-y-postman)
+* [Endpoints principales](#-endpoints-principales)
+* [Scripts útiles](#-scripts-útiles)
+* [Roadmap](#-roadmap)
+* [Contribución](#-contribución)
+* [Autor](#-autor)
 
 ---
 
-## 📂 Estructura del Proyecto
+## ✨ Características
 
-El repositorio sigue una estructura organizada separando claramente cliente y servidor:
+* ✅ **Autenticación**: registro e inicio de sesión.
+* ✅ **Catálogo de mascotas**: listado + detalle.
+* ✅ **Flujo de estados**: `Disponible → En proceso → Adoptado`.
+* ✅ **Panel Admin**: gestión de mascotas, usuarios y solicitudes.
+* ✅ **Validación robusta**: doble capa (**Frontend + Joi en Backend**) para integridad de datos.
+* ✅ **Testing manual** con **colección de Postman** incluida.
 
-```text
+---
+
+## 🧱 Arquitectura
+
+**Monorepo** con dos aplicaciones:
+
+* **Backend**: API REST en `tp-final-wnode/` (Express con `bin/www`).
+* **Frontend**: SPA React en `tp-final-wfront/`.
+
+Flujo típico:
+
+1. El usuario interactúa con React.
+2. React consume la API (fetch/axios).
+3. La API valida (Joi), ejecuta lógica en controllers y persiste en MongoDB.
+
+---
+
+## 🗂️ Estructura del repositorio
+
+```plaintext
 /
 ├── tp-final-wnode/          # 🟢 Backend (API REST)
 │   ├── bin/www              # Entry point del servidor
-│   ├── controllers/         # Controladores de lógica de negocio (Adoptions, Pets, Users)
-│   ├── data/                # Capa de acceso a datos y conexión DB
-│   ├── routes/              # Definición de endpoints de la API
-│   ├── schemas/             # Esquemas de validación (Joi)
-│   └── tp2.postman...json   # Colección de Postman para testing
+│   ├── controllers/         # Lógica de negocio (Adoptions, Pets, Users)
+│   ├── data/                # Acceso a datos + conexión DB
+│   ├── routes/              # Definición de endpoints
+│   ├── schemas/             # Validaciones (Joi)
+│   └── tp2.postman...json   # Colección de Postman
 │
 └── tp-final-wfront/         # 🔵 Frontend (React Client)
-    ├── public/              # Assets estáticos públicos
+    ├── public/              # Assets públicos
     └── src/
-        ├── components/      # Componentes React reutilizables (Home, Login, Pet, etc.)
-        ├── assets/          # Recursos gráficos y hojas de estilo
-        └── lib/             # Utilidades, servicios y constantes
+        ├── components/      # Componentes React (Home, Login, Pet, etc.)
+        ├── assets/          # Estilos / recursos gráficos
+        └── lib/             # Utilidades, servicios, constantes
+```
 
+---
 
+## 🧰 Stack tecnológico
 
-## 🛠️ Instalación y Configuración
+### Backend
 
-Sigue estos pasos para levantar el entorno de desarrollo localmente.
+* Node.js + Express
+* MongoDB (local o Atlas)
+* Joi (validación)
+* Ruteo por módulos + Controllers
+
+### Frontend
+
+* React
+* React Router
+* Estilos en `assets/` (y/o CSS Modules según tu implementación)
+* `lib/` para helpers, services, constantes
+
+---
+
+## 🚀 Instalación y ejecución
 
 ### Prerrequisitos
-* **Node.js** (v14 o superior)
-* **NPM** (Manejador de paquetes)
-* **MongoDB** (Asegúrate de tener una instancia local corriendo o una URI de MongoDB Atlas)
 
-### 1. Configuración del Backend
+* **Node.js** v14+
+* **npm**
+* **MongoDB** local o **MongoDB Atlas**
 
-Navega a la carpeta del servidor e instala las dependencias:
+### 1) Backend (API)
 
 ```bash
 cd tp-final-wnode
 npm install
-
-Variables de Entorno: Revisa el archivo data/conn.js para la conexión a la base de datos. Si es necesario, configura un archivo .env en la raíz de tp-final-wnode con: MONGO_URI=tu_string_de_conexion PORT=3000
-
-Iniciar Servidor:
-
-Bash
-
-# Modo estándar
 npm start
+```
 
-# O con nodemon para desarrollo:
+Por defecto el backend corre en:
+
+* `http://localhost:3000`
+
+> Desarrollo (opcional):
+
+```bash
 nodemon bin/www
-El servidor correrá por defecto en http://localhost:3000.
+```
 
-2. Configuración del Frontend
-En una nueva terminal, navega a la carpeta del cliente e instala las dependencias:
+### 2) Frontend (React)
 
-Bash
+Abrí otra terminal:
 
+```bash
 cd tp-final-wfront
 npm install
-Iniciar Cliente:
-
-Bash
-
 npm start
-La aplicación se abrirá en http://localhost:3000 (o 3001 si el puerto 3000 está ocupado).
+```
 
-📡 Documentación de la API
-Puedes importar el archivo tp2.postman_collection.json incluido en la carpeta del backend para probar los endpoints.
+La app abre en:
 
-Endpoints Clave
-🐶 Mascotas (/api/pets)
-GET /pets - Listar todas las mascotas.
+* `http://localhost:3000` (si está libre)
+* o `http://localhost:3001` (si el 3000 ya lo usa el backend)
 
-GET /pets/:id - Ver detalle de una mascota.
+✅ Recomendación práctica:
 
-POST /pets - Crear una nueva mascota (Requiere permisos).
+* Backend en **3000**
+* Frontend en **3001** (o el puerto que te asigne React)
 
-👤 Usuarios (/api/users)
-POST /users/register - Registro de usuario.
+---
 
-POST /users/login - Autenticación.
+## 🔐 Variables de entorno
 
-📝 Adopciones (/api/adoptions)
-POST /adoptions - Crear solicitud de adopción.
+> Si ya tenés conexión hardcodeada en `data/conn.js`, esto es opcional.
+> Si querés dejarlo prolijo para GitHub, lo ideal es usar `.env`.
 
-GET /adoptions - Ver solicitudes (Admin).
+### Backend (`tp-final-wnode/.env`)
 
-✨ Funcionalidades Destacadas
-✅ Autenticación Segura: Registro y Login completos.
+```env
+PORT=3000
+MONGO_URI=mongodb://127.0.0.1:27017/pet_adoption
+JWT_SECRET=change_me
+CORS_ORIGIN=http://localhost:3001
+```
 
-✅ Catálogo Interactivo: Visualización de mascotas con paginación integrada.
+### Frontend (`tp-final-wfront/.env`)
 
-✅ Estados de Mascota: Control de flujo (Disponible -> En Proceso -> Adoptado).
+```env
+REACT_APP_API_URL=http://localhost:3000
+```
 
-✅ Panel de Admin: Interfaces exclusivas para gestión de inventario y solicitudes.
+> Tip: si usás Create React App, recordá que las variables deben empezar con `REACT_APP_`.
 
-✅ Validaciones: Doble capa de validación (Frontend + Backend) para integridad de datos.
+---
+
+## 📡 API y Postman
+
+Podés importar la colección incluida en el backend para probar los endpoints:
+
+* `tp-final-wnode/tp2.postman_collection.json` (o el nombre equivalente en tu repo)
+
+Pasos:
+
+1. Abrí Postman.
+2. **Import** → seleccioná el JSON.
+3. Ejecutá requests y validá respuestas.
+
+---
+
+## 🔎 Endpoints principales
+
+> Los paths pueden variar según tu router; la idea base es esta.
+
+### 🐶 Mascotas (`/api/pets`)
+
+* `GET /api/pets` → listar todas las mascotas.
+* `GET /api/pets/:id` → ver detalle.
+* `POST /api/pets` → crear nueva mascota (**requiere permisos**).
+
+### 👤 Usuarios (`/api/users`)
+
+* `POST /api/users/register` → registro.
+* `POST /api/users/login` → autenticación.
+
+### 📝 Adopciones (`/api/adoptions`)
+
+* `POST /api/adoptions` → crear solicitud.
+* `GET /api/adoptions` → ver solicitudes (**admin**).
+
+---
+
+## 🧪 Scripts útiles
+
+### Backend
+
+```bash
+npm start
+# o
+nodemon bin/www
+```
+
+### Frontend
+
+```bash
+npm start
+npm run build
+```
+
+---
+
+## 🧭 Roadmap
+
+* [ ] Tests (unit + integration)
+* [ ] Roles/permisos más granulares (RBAC)
+* [ ] Logs + manejo centralizado de errores
+* [ ] Deploy con variables de entorno (Render/Vercel + Mongo Atlas)
+* [ ] Seguridad: rate limiting, helmet, refresh tokens
+
+---
+
+## 🤝 Contribución
+
+1. Fork del repo.
+2. Crear rama: `git checkout -b feature/nombre`.
+3. Commit: `git commit -m "feat: ..."`.
+4. Push: `git push origin feature/nombre`.
+5. Pull Request.
+
+---
+
+## 👤 Autor
+
+* Lucas Vottche — (agregá tu GitHub/LinkedIn acá)
