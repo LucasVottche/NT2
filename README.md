@@ -12,18 +12,18 @@ Incluye **API REST** (Node/Express + MongoDB) y **cliente React** con autenticac
 
 ## 📌 Tabla de Contenidos
 
-* [Características](#características)
-* [Arquitectura](#arquitectura)
-* [Estructura del repositorio](#estructura-del-repositorio)
-* [Stack tecnológico](#stack-tecnológico)
-* [Instalación y ejecución](#instalación-y-ejecución)
-* [Variables de entorno](#variables-de-entorno)
-* [API y Postman](#api-y-postman)
-* [Endpoints principales](#endpoints-principales)
-* [Scripts útiles](#scripts-útiles)
-* [Roadmap](#roadmap)
-* [Contribución](#contribución)
-* [Autor](#autor)
+* [Características](#-características)
+* [Arquitectura](#-arquitectura)
+* [Estructura del repositorio](#-estructura-del-repositorio)
+* [Stack tecnológico](#-stack-tecnológico)
+* [Instalación y ejecución](#-instalación-y-ejecución)
+* [Variables de entorno](#-variables-de-entorno)
+* [API y Postman](#-api-y-postman)
+* [Endpoints principales](#-endpoints-principales)
+* [Scripts útiles](#-scripts-útiles)
+* [Roadmap](#-roadmap)
+* [Contribución](#-contribución)
+* [Autor](#-autor)
 
 ---
 
@@ -242,4 +242,4 @@ npm run build
 
 ## 👤 Autor
 
-* Lucas Vottche 
+* Lucas Vottche — (agregá tu GitHub/LinkedIn acá)
