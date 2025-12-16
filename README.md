@@ -242,4 +242,4 @@ npm run build
 
 ## 👤 Autor
 
-* Lucas Vottche — (agregá tu GitHub/LinkedIn acá)
+* Lucas Vottche 
