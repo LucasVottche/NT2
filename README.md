@@ -1,128 +1,70 @@
-# 🐾 Sistema de Gestión de Adopciones (Pet Adoption App)
+# 🐾 Pet Adoption App — Full Stack (Node + React)
 
-![Status](https://img.shields.io/badge/Status-Completado-success)
-![Stack](https://img.shields.io/badge/Stack-MERN-blue)
+[![Node.js](https://img.shields.io/badge/Node.js-API%20REST-339933?logo=node.js&logoColor=white)](#)
+[![Express](https://img.shields.io/badge/Express-Framework-black?logo=express&logoColor=white)](#)
+[![MongoDB](https://img.shields.io/badge/MongoDB-Database-47A248?logo=mongodb&logoColor=white)](#)
+[![React](https://img.shields.io/badge/React-Frontend-61DAFB?logo=react&logoColor=000)](#)
 
-Este proyecto es una aplicación web completa (**Full Stack**) diseñada para facilitar y gestionar el proceso de adopción de mascotas. El sistema permite a los usuarios explorar un catálogo de animales, registrarse y gestionar sus solicitudes, mientras que ofrece a los administradores herramientas eficientes para controlar el inventario de mascotas.
-
-El sistema utiliza una arquitectura de **Monorepo lógico** dividido en dos partes principales:
-
-* **Backend (`tp-final-wnode`):** API RESTful robusta construida con Node.js y Express.
-* **Frontend (`tp-final-wfront`):** Single Page Application (SPA) moderna e interactiva construida con React.js.
+Aplicación web **Full Stack** para gestionar el proceso de adopción de mascotas.  
+Incluye **API REST** (Node/Express + MongoDB) y **cliente React** con autenticación, catálogo y panel de administración.
 
 ---
 
-## 🚀 Tecnologías Utilizadas
-
-### Backend
-* ![NodeJS](https://img.shields.io/badge/Node.js-339933?style=flat&logo=nodedotjs&logoColor=white) **Node.js & Express:** Entorno de ejecución y framework para la construcción de la API REST.
-* ![MongoDB](https://img.shields.io/badge/MongoDB-47A248?style=flat&logo=mongodb&logoColor=white) **MongoDB:** Base de datos NoSQL (gestionada vía Mongoose).
-* **Mongoose:** ODM para modelado de datos.
-* **Joi:** Biblioteca para validación estricta de esquemas de datos.
-* **EJS:** Motor de plantillas (utilizado para vistas base del servidor).
-
-### Frontend
-* ![React](https://img.shields.io/badge/React-20232A?style=flat&logo=react&logoColor=61DAFB) **React.js:** Biblioteca principal para la construcción de interfaces de usuario dinámicas.
-* **React Router:** Gestión de rutas y navegación del lado del cliente.
-* **CSS Modules:** Metodología de estilos para encapsular el diseño de componentes.
+## 📌 Tabla de Contenidos
+- [Características](#-características)
+- [Arquitectura](#-arquitectura)
+- [Estructura del repositorio](#-estructura-del-repositorio)
+- [Stack tecnológico](#-stack-tecnológico)
+- [Instalación y ejecución](#-instalación-y-ejecución)
+- [Variables de entorno](#-variables-de-entorno)
+- [API y Postman](#-api-y-postman)
+- [Endpoints principales](#-endpoints-principales)
+- [Scripts útiles](#-scripts-útiles)
+- [Roadmap](#-roadmap)
+- [Contribución](#-contribución)
 
 ---
 
-## 📂 Estructura del Proyecto
+## ✨ Características
+- ✅ **Autenticación**: registro e inicio de sesión
+- ✅ **Catálogo de mascotas**: listado + detalle
+- ✅ **Flujo de estados**: `Disponible → En proceso → Adoptado`
+- ✅ **Panel Admin**: gestión de mascotas, usuarios y solicitudes
+- ✅ **Validación robusta**: doble capa (**Frontend + Joi en Backend**)
+- ✅ **Testing manual** con **colección de Postman** incluida
 
-El repositorio sigue una estructura organizada separando claramente cliente y servidor:
+---
 
-```text
+## 🧱 Arquitectura
+**Monorepo** con dos apps:
+
+- **Backend**: API REST en `tp-final-wnode/` (Express con `bin/www`)
+- **Frontend**: SPA React en `tp-final-wfront/`
+
+Flujo típico:
+1. El usuario interactúa con React
+2. React consume la API (fetch/axios)
+3. La API valida (Joi), ejecuta lógica en controllers y persiste en MongoDB
+
+---
+
+## 🗂️ Estructura del repositorio
+
+```plaintext
 /
 ├── tp-final-wnode/          # 🟢 Backend (API REST)
 │   ├── bin/www              # Entry point del servidor
-│   ├── controllers/         # Controladores de lógica de negocio (Adoptions, Pets, Users)
-│   ├── data/                # Capa de acceso a datos y conexión DB
-│   ├── routes/              # Definición de endpoints de la API
-│   ├── schemas/             # Esquemas de validación (Joi)
-│   └── tp2.postman...json   # Colección de Postman para testing
+│   ├── controllers/         # Lógica de negocio (Adoptions, Pets, Users)
+│   ├── data/                # Acceso a datos + conexión DB
+│   ├── routes/              # Definición de endpoints
+│   ├── schemas/             # Validaciones (Joi)
+│   └── tp2.postman...json   # Colección de Postman
 │
 └── tp-final-wfront/         # 🔵 Frontend (React Client)
-    ├── public/              # Assets estáticos públicos
+    ├── public/              # Assets públicos
     └── src/
-        ├── components/      # Componentes React reutilizables (Home, Login, Pet, etc.)
-        ├── assets/          # Recursos gráficos y hojas de estilo
-        └── lib/             # Utilidades, servicios y constantes
+        ├── components/      # Componentes React (Home, Login, Pet, etc.)
+        ├── assets/          # Estilos / recursos gráficos
+        └── lib/             # Utilidades, servicios, constantes
 
 
-
-## 🛠️ Instalación y Configuración
-
-Sigue estos pasos para levantar el entorno de desarrollo localmente.
-
-### Prerrequisitos
-* **Node.js** (v14 o superior)
-* **NPM** (Manejador de paquetes)
-* **MongoDB** (Asegúrate de tener una instancia local corriendo o una URI de MongoDB Atlas)
-
-### 1. Configuración del Backend
-
-Navega a la carpeta del servidor e instala las dependencias:
-
-```bash
-cd tp-final-wnode
-npm install
-
-Variables de Entorno: Revisa el archivo data/conn.js para la conexión a la base de datos. Si es necesario, configura un archivo .env en la raíz de tp-final-wnode con: MONGO_URI=tu_string_de_conexion PORT=3000
-
-Iniciar Servidor:
-
-Bash
-
-# Modo estándar
-npm start
-
-# O con nodemon para desarrollo:
-nodemon bin/www
-El servidor correrá por defecto en http://localhost:3000.
-
-2. Configuración del Frontend
-En una nueva terminal, navega a la carpeta del cliente e instala las dependencias:
-
-Bash
-
-cd tp-final-wfront
-npm install
-Iniciar Cliente:
-
-Bash
-
-npm start
-La aplicación se abrirá en http://localhost:3000 (o 3001 si el puerto 3000 está ocupado).
-
-📡 Documentación de la API
-Puedes importar el archivo tp2.postman_collection.json incluido en la carpeta del backend para probar los endpoints.
-
-Endpoints Clave
-🐶 Mascotas (/api/pets)
-GET /pets - Listar todas las mascotas.
-
-GET /pets/:id - Ver detalle de una mascota.
-
-POST /pets - Crear una nueva mascota (Requiere permisos).
-
-👤 Usuarios (/api/users)
-POST /users/register - Registro de usuario.
-
-POST /users/login - Autenticación.
-
-📝 Adopciones (/api/adoptions)
-POST /adoptions - Crear solicitud de adopción.
-
-GET /adoptions - Ver solicitudes (Admin).
-
-✨ Funcionalidades Destacadas
-✅ Autenticación Segura: Registro y Login completos.
-
-✅ Catálogo Interactivo: Visualización de mascotas con paginación integrada.
-
-✅ Estados de Mascota: Control de flujo (Disponible -> En Proceso -> Adoptado).
-
-✅ Panel de Admin: Interfaces exclusivas para gestión de inventario y solicitudes.
-
-✅ Validaciones: Doble capa de validación (Frontend + Backend) para integridad de datos.
