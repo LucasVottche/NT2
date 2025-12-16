@@ -1,11 +1,13 @@
-require('dotenv').config(); // Carga las variables del archivo .env
+require('dotenv').config();
 const { MongoClient } = require('mongodb');
 
-// Leemos la dirección de la base de datos desde el .env
-const uri = process.env.CONNECTION_STRING;
+// CAMBIO CLAVE: Leer CONNECTION_STRING en lugar de MONGODB
+const uri = process.env.CONNECTION_STRING; 
 
+// Verificación de seguridad (opcional pero recomendada)
 if (!uri) {
-  console.error("ERROR: No se encontró la variable CONNECTION_STRING en el archivo .env");
+    console.error("ERROR FATAL: No se leyó CONNECTION_STRING del archivo .env");
+    process.exit(1);
 }
 
 const client = new MongoClient(uri);
@@ -13,18 +15,27 @@ const client = new MongoClient(uri);
 let instance = null;
 
 async function getConnection() {
-  if (instance == null) {
-    try {
-      // Conectamos a la base de datos
+  try {
+    if (instance == null) {
       instance = await client.connect();
-      console.log("Conexión a MongoDB establecida exitosamente.");
-    } catch (err) {
-      console.error("Error al conectar con MongoDB:", err.message);
-      throw err;
+      console.log('Conexión a MongoDB establecida exitosamente.');
     }
+    return instance;
+  } catch (error) {
+    console.error('Error conectando a la db:', error);
+    throw error; 
   }
-  return instance;
 }
 
-// Exportamos la función para que users.js la pueda usar
-module.exports = { getConnection };
+// Función que usan tus controladores
+async function dataAccess(database, theCollection) {
+  try {
+    const connectiondb = await getConnection();
+    return connectiondb.db(database).collection(theCollection);
+  } catch (error) {
+    console.error('Error accediendo a los datos:', error);
+    throw error;
+  }
+}
+
+module.exports = { dataAccess };

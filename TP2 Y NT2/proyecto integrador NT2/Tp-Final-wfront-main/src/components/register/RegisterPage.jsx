@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import Navbar from "../Navigation/Navbar.jsx";
 import Footer from "../Navigation/Footer.jsx";
-import "../../assets/styles/Register.css"; // Asegúrate de que este archivo tenga los estilos nuevos
+import "../../assets/styles/Register.css";
 import { useNavigate } from "react-router-dom";
 import RegisterForm from "./RegisterForm.jsx";
 import RegisterResult from "./RegisterResult.jsx";
-import Constants from "../../lib/Constants.js"; // Usamos tu constante
+import Constants from "../../lib/Constants.js";
 
 const RegisterPage = () => {
   const navigate = useNavigate();
@@ -18,8 +18,8 @@ const RegisterPage = () => {
     const registro = {
       firstName: data.firstName,
       lastName: data.lastName,
-      age: parseInt(data.age), 
-      role: data.role, 
+      age: parseInt(data.age),
+      role: "user", 
       email: data.email,
       password: data.password,
     };

@@ -1,5 +1,5 @@
 module.exports = Object.freeze({
-  DATABASE: "trabajo_final",
+  DATABASE: "TpFinalNT2", // <--- AQUÍ CAMBIAMOS EL NOMBRE DE LA BASE
   USERS: "users",
   PETS: "pets",
   ADOPTIONS: "adoptions",

@@ -1,33 +1,34 @@
 const { ObjectId } = require("mongodb");
 const conn = require("./conn");
+const constants = require("../lib/constants");
 
-// Función auxiliar para conectar a la colección 'pets'
-async function getCollection() {
-  const client = await conn.getConnection();
-  return client.db("TpFinalNT2").collection("pets");
+// Usamos la misma conexión estándar que en users.js
+async function dataAccess() {
+  return await conn.dataAccess(constants.DATABASE, constants.PETS);
 }
 
-// http://localhost:5000/api/pets/
+// GET: Todas las mascotas (Admin)
 async function getAllPets(pageSize, page) {
-  const collection = await getCollection();
+  const collection = await dataAccess();
   const totalPets = await collection.countDocuments();
 
   const pets = await collection
     .find({})
-    .sort({ _id: -1 })
+    .sort({ _id: -1 }) // Orden descendente
     .limit(pageSize)
     .skip(pageSize * page)
     .toArray();
   return { totalPets, pets };
 }
 
-// http://localhost:5000/api/pets/adoptables/
+// GET: Mascotas disponibles para adoptar
 async function getAdoptables(pageSize, page) {
-  const collection = await getCollection();
-  const totalPets = await collection.countDocuments({ status: "available" });
+  const collection = await dataAccess();
+  const query = { status: "available" };
+  const totalPets = await collection.countDocuments(query);
 
   const pets = await collection
-    .find({ status: "available" })
+    .find(query)
     .sort({ _id: -1 })
     .limit(pageSize)
     .skip(pageSize * page)
@@ -35,14 +36,14 @@ async function getAdoptables(pageSize, page) {
   return { totalPets, pets };
 }
 
-// http://localhost:5000/api/pets/adopciones/
+// GET: Mascotas en proceso de adopción o adoptadas
 async function getAdopciones(pageSize, page) {
-  const collection = await getCollection();
-  // Buscamos mascotas que NO estén disponibles (o sea, adoptadas o en espera)
-  const totalPets = await collection.countDocuments({ status: { $ne: "available" } });
+  const collection = await dataAccess();
+  const query = { status: { $ne: "available" } }; // Status NO es "available"
+  const totalPets = await collection.countDocuments(query);
 
   const pets = await collection
-    .find({ status: { $ne: "available" } })
+    .find(query)
     .sort({ _id: -1 })
     .limit(pageSize)
     .skip(pageSize * page)
@@ -50,40 +51,35 @@ async function getAdopciones(pageSize, page) {
   return { totalPets, pets };
 }
 
-// http://localhost:5000/api/pets/ID
+// Obtener una mascota por ID
 async function getPet(id) {
-  const collection = await getCollection();
+  const collection = await dataAccess();
   const pet = await collection.findOne({ _id: new ObjectId(id) });
   return pet;
 }
 
-// http://localhost:5000/api/pets/addPet
+// Agregar mascota
 async function addPet(pet) {
-  const collection = await getCollection();
-  // Valor por defecto si no viene el status
-  if (!pet.status) {
-      pet.status = "available";
-  }
+  const collection = await dataAccess();
   const result = await collection.insertOne(pet);
   return result;
 }
 
-// http://localhost:5000/api/pets/updatePet/ID
+// Actualizar mascota
 async function updatePet(id, pet) {
-  const collection = await getCollection();
+  const collection = await dataAccess();
   const filter = { _id: new ObjectId(id) };
   const update = { $set: pet };
-  
   const result = await collection.findOneAndUpdate(filter, update, {
-    returnDocument: 'after', 
+    returnDocument: "after", // Devuelve el documento actualizado
   });
 
   return result;
 }
 
-// http://localhost:5000/api/pets/deletePet/ID
+// Eliminar mascota
 async function deletePet(id) {
-  const collection = await getCollection();
+  const collection = await dataAccess();
   const filter = { _id: new ObjectId(id) };
   const result = await collection.findOneAndDelete(filter);
 
@@ -97,5 +93,5 @@ module.exports = {
   updatePet,
   deletePet,
   getAdoptables,
-  getAdopciones
+  getAdopciones,
 };

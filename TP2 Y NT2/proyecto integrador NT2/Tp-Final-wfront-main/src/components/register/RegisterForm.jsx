@@ -42,31 +42,23 @@ const RegisterForm = ({ onSubmit }) => {
           {errors.lastName && <p className="error-text">{errors.lastName.message}</p>}
         </div>
 
-        {/* Edad y Rol en la misma fila para ahorrar espacio */}
-        <div style={{ display: 'flex', gap: '1rem' }}>
-            <div className="form-group" style={{ flex: 1 }}>
-                <label htmlFor="age">Edad</label>
-                <input
-                    type="number"
-                    placeholder="Ej: 25"
-                    {...register("age", {
-                    required: "Obligatorio",
-                    valueAsNumber: true,
-                    min: { value: 13, message: "+13 años" },
-                    max: { value: 100, message: "Edad no válida" },
-                    })}
-                />
-                {errors.age && <p className="error-text">{errors.age.message}</p>}
-            </div>
-
-            <div className="form-group" style={{ flex: 1 }}>
-                <label htmlFor="role">Rol</label>
-                <select {...register("role", { required: true })} defaultValue="user">
-                    <option value="user">Usuario</option>
-                    <option value="administrador">Admin</option>
-                </select>
-            </div>
+        {/* Edad - Ahora ocupa su propia fila */}
+        <div className="form-group">
+            <label htmlFor="age">Edad</label>
+            <input
+                type="number"
+                placeholder="Ej: 25"
+                {...register("age", {
+                required: "Obligatorio",
+                valueAsNumber: true,
+                min: { value: 13, message: "+13 años" },
+                max: { value: 100, message: "Edad no válida" },
+                })}
+            />
+            {errors.age && <p className="error-text">{errors.age.message}</p>}
         </div>
+
+        {/* SECCIÓN DE ROL ELIMINADA */}
 
         {/* Email */}
         <div className="form-group">
