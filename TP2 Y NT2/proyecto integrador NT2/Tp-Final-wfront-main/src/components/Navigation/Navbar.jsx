@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "../../assets/styles/Navbar.css";
 import Logo from "../../assets/images/Logo.png";
-import LogoutModal from "./LogoutModal"; // <--- IMPORTANTE: Importamos el modal
+import LogoutModal from "./LogoutModal";
 import { Link, useNavigate } from "react-router-dom";
 import {
   isAdmin,
@@ -12,22 +12,18 @@ import {
 
 const Navbar = () => {
   const navigate = useNavigate();
-  // Estado para controlar si mostramos el popup o no
   const [showLogoutModal, setShowLogoutModal] = useState(false);
 
-  // 1. Cuando el usuario hace clic en "Cerrar Sesión", solo abrimos el modal
   const handleLogoutClick = () => {
     setShowLogoutModal(true);
   };
 
-  // 2. Si el usuario confirma en el modal, ejecutamos la salida real
   const confirmLogout = () => {
     clearAuthToken();
-    setShowLogoutModal(false); // Cerramos el modal
+    setShowLogoutModal(false);
     navigate("/login");
   };
 
-  // 3. Si el usuario cancela, solo cerramos el modal
   const cancelLogout = () => {
     setShowLogoutModal(false);
   };
@@ -42,21 +38,37 @@ const Navbar = () => {
           <img src={Logo} className="logo" alt="Logo Adoptame" />
         </Link>
 
+        {/* --- SECCIÓN DE NAVEGACIÓN PRINCIPAL --- */}
         <ul className="navbar-links">
           <li><Link to="/">Inicio</Link></li>
           
-          {isAuthenticated() && isAdmin() ? (
-            <>
-              <li><Link to="/adminadopt">Administrar</Link></li>
-              <li><Link to="/agregarmascota">Nueva Mascota</Link></li>
-            </>
+          {/* LÓGICA DE VISIBILIDAD DE MENÚS */}
+          {isAuthenticated() ? (
+            // CASO 1: ESTÁ LOGUEADO
+            isAdmin() ? (
+              // SUB-CASO A: ES ADMIN
+              <>
+                <li><Link to="/adminadopt">Administrar</Link></li>
+                <li><Link to="/agregarmascota">Nueva Mascota</Link></li>
+              </>
+            ) : (
+              // SUB-CASO B: ES USUARIO NORMAL (Aquí van sus opciones exclusivas)
+              <>
+                <li><Link to="/adopt">¡Adoptar!</Link></li>
+                <li><Link to="/mismascotas">Mis Mascotas</Link></li>
+              </>
+            )
           ) : (
-            <li><Link to="/adopt">¡Adoptar!</Link></li>
+            // CASO 2: INVITADO (NO LOGUEADO)
+            // No mostramos nada extra, solo caerá a "Ver Mascotas" abajo
+            null
           )}
           
+          {/* ESTE LINK SIEMPRE ES VISIBLE PARA TODOS */}
           <li><Link to="/pets">Ver Mascotas</Link></li>
         </ul>
 
+        {/* --- SECCIÓN DE USUARIO / LOGIN --- */}
         <ul className="navbar-session-user">
           {isAuthenticated() ? (
             <>
@@ -68,7 +80,6 @@ const Navbar = () => {
               </li>
               
               <li>
-                {/* Al hacer clic, llamamos a la función que abre el modal */}
                 <button className="btn-logout" onClick={handleLogoutClick}>
                   Cerrar Sesión
                 </button>
@@ -91,7 +102,6 @@ const Navbar = () => {
         </ul>
       </nav>
 
-      {/* Aquí renderizamos el Modal, que solo se verá si showLogoutModal es true */}
       <LogoutModal 
         isOpen={showLogoutModal} 
         onClose={cancelLogout} 

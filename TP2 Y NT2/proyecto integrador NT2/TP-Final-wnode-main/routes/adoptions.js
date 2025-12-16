@@ -2,12 +2,10 @@ var express = require('express');
 var router = express.Router();
 const controller = require('../controllers/adoptions.js');
 
-// GET: Traer todas las adopciones (ESTA FALTABA)
-// http://localhost:5000/api/adoptions/
+// GET: Traer todas las adopciones
 router.get('/', controller.getAdoptions);
 
 // POST: Crear solicitud
-// http://localhost:5000/api/adoptions/add-adoption
 router.post('/add-adoption', async (req, res) => {
   try {
     const result = await controller.addAdoption(
@@ -21,7 +19,6 @@ router.post('/add-adoption', async (req, res) => {
 });
 
 // PUT: Aprobar adopción
-// http://localhost:5000/api/adoptions/approve-adoption/:id
 router.put('/approve-adoption/:id', async (req, res) => {
   try {
     const result = await controller.approveAdoption(req.params.id);
@@ -31,7 +28,7 @@ router.put('/approve-adoption/:id', async (req, res) => {
   }
 });
 
-// DELETE: Rechazar adopción (Devolver a disponible)
+// DELETE: Rechazar adopción
 router.delete("/reject-adoption/:id", async (req, res) => {
   try {
     const result = await controller.rejectAdoption(req.params.id);
@@ -41,7 +38,7 @@ router.delete("/reject-adoption/:id", async (req, res) => {
   }
 });
 
-// DELETE: Eliminar registro
+// DELETE: Resetear adopción
 router.delete("/delete-adoption/:id", async (req, res) => {
   try {
     const result = await controller.deleteAdoption(req.params.id);

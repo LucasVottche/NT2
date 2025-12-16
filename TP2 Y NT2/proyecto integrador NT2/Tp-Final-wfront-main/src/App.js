@@ -8,6 +8,8 @@ import AdoptPage from "./components/Pet/AdoptPage";
 import RegisterPage from "./components/register/RegisterPage";
 import Administrator from "./components/administrator/Administrator";
 import AdminAdoptionsPage from "./components/Pet/AdminAdoptionsPage";
+// 1. IMPORTAMOS LA NUEVA PÁGINA
+import MyPetsPage from "./components/Pet/MyPetsPage";
 
 function App() {
   return (
@@ -21,6 +23,9 @@ function App() {
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/admin" element={<Administrator />} />
         <Route path="/agregarmascota" element={<Administrator />} />
+        
+        {/* 2. AGREGAMOS LA RUTA PARA MIS MASCOTAS */}
+        <Route path="/mismascotas" element={<MyPetsPage />} />
       </Routes>
     </BrowserRouter>
   );

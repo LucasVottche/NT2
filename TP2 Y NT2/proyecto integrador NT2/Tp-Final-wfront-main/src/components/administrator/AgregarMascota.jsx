@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import "bootstrap/dist/css/bootstrap.min.css"; // Mantenemos BS para la grilla interna (row/col)
+import "bootstrap/dist/css/bootstrap.min.css";
 import "../../assets/styles/AgregarMascota.css";
 import Constants from "../../lib/Constants.js";
 import Message from "../Navigation/Message";
@@ -19,6 +19,7 @@ const AgregarMascota = () => {
     age: "",
     description: "",
     province: "",
+    isCastrated: false, // Estado inicial booleano
   });
 
   const [isUpdating, setIsUpdating] = useState(false);
@@ -39,6 +40,8 @@ const AgregarMascota = () => {
             age: data.age || "",
             description: data.description || "",
             province: data.province || "",
+            // Aseguramos que si viene null/undefined sea false
+            isCastrated: data.isCastrated === true, 
           });
           setIsUpdating(true);
         })
@@ -47,7 +50,20 @@ const AgregarMascota = () => {
   }, [location.search]);
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
+    const target = e.target;
+    const name = target.name;
+    let value = target.value;
+
+    // LÓGICA ESPECIAL PARA CASTRADO (Select que devuelve strings "true"/"false")
+    if (name === 'isCastrated') {
+        // Convertimos el string del select a un booleano real para el estado
+        value = value === 'true';
+    }
+    // Si tuvieras otros checkboxes reales:
+    else if (target.type === 'checkbox') {
+         value = target.checked;
+    }
+
     setForm({ ...form, [name]: value });
   };
 
@@ -58,7 +74,6 @@ const AgregarMascota = () => {
     e.preventDefault();
     setLoading(true);
 
-    // Nota: Si no envías archivos, JSON.stringify es mejor que FormData para APIs JSON puras
     try {
       let responseFetch;
       const endpoint = petId 
@@ -67,12 +82,13 @@ const AgregarMascota = () => {
 
       const method = petId ? "PUT" : "POST";
 
+      // El estado 'isCastrated' ya es booleano, se envía correctamente en el JSON
       responseFetch = await fetch(endpoint, {
         method: method,
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(form),
+        body: JSON.stringify(form), 
       });
 
       if (responseFetch.ok) {
@@ -82,7 +98,7 @@ const AgregarMascota = () => {
         });
         setTimeout(() => {
           navigate("/pets");
-        }, 2000); // Reduje el tiempo a 2s para mejor UX
+        }, 2000); 
       } else {
         setMessage({
           text: `Error al procesar la solicitud.`,
@@ -101,7 +117,6 @@ const AgregarMascota = () => {
   };
 
   return (
-    // Esta clase 'cargar-mascotas' activa el estilo de tarjeta blanca del CSS
     <div className="cargar-mascotas">
       <h2 className="text-center mb-4">
         {petId ? "Editar Mascota" : "Nueva Mascota"}
@@ -111,9 +126,9 @@ const AgregarMascota = () => {
 
       <form onSubmit={handleSubmit} className="dar-adoptar-form">
         
-        {/* Fila 1: Nombre y Edad */}
+        {/* Fila 1: Nombre, Edad y Castrado (Ahora visualmente consistentes) */}
         <div className="row">
-          <div className="form-group col-md-8">
+          <div className="form-group col-md-6">
             <label htmlFor="name">Nombre</label>
             <input
               type="text"
@@ -127,7 +142,7 @@ const AgregarMascota = () => {
             />
           </div>
 
-          <div className="form-group col-md-4">
+          <div className="form-group col-md-3">
             <label htmlFor="age">Edad (años)</label>
             <input
               type="number"
@@ -139,13 +154,32 @@ const AgregarMascota = () => {
               placeholder="Ej: 2"
             />
           </div>
+
+          {/* --- MEJORA VISUAL: USAR SELECT EN LUGAR DE CHECKBOX --- */}
+          <div className="form-group col-md-3">
+             <label htmlFor="isCastrated">¿Está Castrado?</label>
+             {/* Usamos un select con className="form-control" para que se vea igual a los otros inputs */}
+             <select
+                id="isCastrated"
+                name="isCastrated"
+                // Convertimos el booleano a string para que el select muestre la opción correcta
+                value={form.isCastrated.toString()} 
+                onChange={handleChange}
+                required
+                className="form-control"
+            >
+                {/* Los valores son strings "false" y "true" que handleChange convierte a booleanos */}
+                <option value="false">No</option>
+                <option value="true">Sí</option>
+            </select>
+          </div>
+          {/* ----------------------------------------------------- */}
         </div>
 
         {/* Fila 2: Detalles */}
         <div className="row">
           <div className="form-group col-md-4">
             <label htmlFor="specie">Especie</label>
-            {/* Sugerencia UX: Podrías cambiar esto a un <select> en el futuro */}
             <input
               type="text"
               id="specie"
@@ -178,7 +212,7 @@ const AgregarMascota = () => {
                 value={form.gender}
                 onChange={handleChange}
                 required
-                className="form-control" // Para que tome el estilo
+                className="form-control"
             >
                 <option value="">Seleccionar</option>
                 <option value="Macho">Macho</option>
@@ -218,8 +252,6 @@ const AgregarMascota = () => {
         <div className="form-group mt-3">
           <button
             type="submit"
-            // Usamos 'btn-primary' para que sea Verde (definido en styles.css global)
-            // Quitamos 'col-md-12' y usamos width: 100% en CSS
             className="btn btn-primary" 
             style={{ width: '100%' }}
             disabled={loading}

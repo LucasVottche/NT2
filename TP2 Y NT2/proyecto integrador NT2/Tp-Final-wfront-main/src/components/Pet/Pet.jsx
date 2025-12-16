@@ -11,64 +11,58 @@ const PetCard = ({ pet, showAdoptButton }) => {
   const [statusUpdate, setStatus] = useState(pet.status);
   const [isDeleted, setIsDeleted] = useState(false);
   const [isAdopting, setIsAdopting] = useState(false);
-  const { _id, name, specie, race, gender, age, description } = pet;
 
-  // --- LÓGICA PARA EMOJIS (Soporte Bilingüe) ---
+  // 1. Incluimos isCastrated en la desestructuración
+  const { _id, name, specie, race, gender, age, description, isCastrated } = pet;
+
+  const navigate = useNavigate();
+
+  // --- HELPER: Emojis según especie ---
   const getSpecieEmoji = (text) => {
     if (!text) return "🐾";
-    const lowerText = text.toLowerCase().trim();
-    
-    // Detectamos tanto español como inglés
-    if (lowerText === "perro" || lowerText === "dog") return "🐶";
-    if (lowerText === "gato" || lowerText === "cat") return "🐱";
-    if (lowerText === "conejo" || lowerText === "rabbit") return "🐰";
-    if (lowerText === "ave" || lowerText === "pajaro" || lowerText === "bird") return "🐦";
-    
+    const lower = text.toLowerCase().trim();
+    if (lower.includes("perro") || lower.includes("dog")) return "🐶";
+    if (lower.includes("gato") || lower.includes("cat")) return "🐱";
+    if (lower.includes("conejo")) return "🐰";
+    if (lower.includes("ave") || lower.includes("pajaro")) return "🐦";
     return "🐾";
   };
 
   const formatGender = (text) => {
     if (!text) return "";
-    const lowerText = text.toLowerCase().trim();
-    
-    // Detectamos tanto español como inglés
-    if (lowerText === "macho" || lowerText === "male") return "♂️ Macho";
-    if (lowerText === "hembra" || lowerText === "female") return "♀️ Hembra";
-    
+    const lower = text.toLowerCase().trim();
+    if (lower === "macho" || lower === "male") return "♂️ Macho";
+    if (lower === "hembra" || lower === "female") return "♀️ Hembra";
     return text;
   };
 
-  // --- LÓGICA DE ESTILOS PARA EL ESTADO (Badge) ---
+  // --- HELPER: Badge de Estado ---
   const getStatusBadge = (currentStatus) => {
-    let styles = {
+    const style = {
       padding: "4px 12px",
       borderRadius: "20px",
       fontSize: "0.8rem",
       fontWeight: "bold",
       textTransform: "uppercase",
-      display: "inline-block",
       marginBottom: "10px",
-      letterSpacing: "0.5px"
+      display: "inline-block"
     };
 
     switch (currentStatus) {
       case "available":
-        return <span style={{ ...styles, backgroundColor: "#d4edda", color: "#155724", border: "1px solid #c3e6cb" }}>✅ Disponible</span>;
+        return <span style={{ ...style, backgroundColor: "#d4edda", color: "#155724", border: "1px solid #c3e6cb" }}>✅ Disponible</span>;
       case "awaiting":
-        return <span style={{ ...styles, backgroundColor: "#fff3cd", color: "#856404", border: "1px solid #ffeeba" }}>⏳ En Proceso</span>;
+        return <span style={{ ...style, backgroundColor: "#fff3cd", color: "#856404", border: "1px solid #ffeeba" }}>⏳ En Proceso</span>;
       case "adopted":
-        return <span style={{ ...styles, backgroundColor: "#cce5ff", color: "#004085", border: "1px solid #b8daff" }}>🏠 Adoptado</span>;
+        return <span style={{ ...style, backgroundColor: "#cce5ff", color: "#004085", border: "1px solid #b8daff" }}>🏠 Adoptado</span>;
       case "rejected":
-        return <span style={{ ...styles, backgroundColor: "#f8d7da", color: "#721c24", border: "1px solid #f5c6cb" }}>❌ Rechazado</span>;
+        return <span style={{ ...style, backgroundColor: "#f8d7da", color: "#721c24", border: "1px solid #f5c6cb" }}>❌ Rechazado</span>;
       default:
-        return <span style={{ ...styles, backgroundColor: "#e2e3e5", color: "#383d41" }}>{currentStatus}</span>;
+        return null;
     }
   };
 
-  // ---------------------------
-  // FUNCIONES DE API (Misma lógica, solo limpieza visual en código)
-  // ---------------------------
-
+  // --- FUNCIONES DE API ---
   const adoptar = async () => {
     const userId = getUserId();
     setIsAdopting(true);
@@ -82,159 +76,148 @@ const PetCard = ({ pet, showAdoptButton }) => {
         }
       );
       if (response.ok) {
-        setMessage({ text: `¡Solicitud enviada!`, type: "success" });
+        setMessage({ text: `Solicitud enviada`, type: "success" });
         setTimeout(() => window.location.reload(), 2000);
       } else {
-        setMessage({ text: "Error al solicitar", type: "error" });
+        setMessage({ text: "Solicitud fallida", type: "error" });
       }
-    } catch (error) {
-      console.error("Error: ", error);
-    } finally {
-      setIsAdopting(false);
-    }
+    } catch (error) { console.error(error); } 
+    finally { setIsAdopting(false); }
   };
 
   const rejectAdoption = async () => {
     try {
-      const response = await fetch(`${Constants.API_BASE_URL}:${Constants.API_PORT}/api/adoptions/reject-adoption/${_id}`, { method: "DELETE" });
-      if (response.ok) {
-        setStatus("rejected");
-      }
-    } catch (error) { console.error(error); }
+      const res = await fetch(`${Constants.API_BASE_URL}:${Constants.API_PORT}/api/adoptions/reject-adoption/${_id}`, { method: "DELETE" });
+      if (res.ok) setStatus("rejected");
+    } catch (e) { console.error(e); }
   };
 
   const approveAdoption = async () => {
     try {
-      const response = await fetch(`${Constants.API_BASE_URL}:${Constants.API_PORT}/api/adoptions/approve-adoption/${_id}`, { method: "PUT" });
-      if (response.ok) {
-        setStatus("adopted");
-      }
-    } catch (error) { console.error(error); }
+      const res = await fetch(`${Constants.API_BASE_URL}:${Constants.API_PORT}/api/adoptions/approve-adoption/${_id}`, { method: "PUT" });
+      if (res.ok) setStatus("adopted");
+    } catch (e) { console.error(e); }
   };
 
   const deleteAdoption = async () => {
     try {
-      const response = await fetch(`${Constants.API_BASE_URL}:${Constants.API_PORT}/api/adoptions/delete-adoption/${_id}`, { method: "DELETE" });
-      if (response.ok) {
-        setIsDeleted(true);
-        setStatus("available");
-      }
-    } catch (error) { console.error(error); }
+      const res = await fetch(`${Constants.API_BASE_URL}:${Constants.API_PORT}/api/adoptions/delete-adoption/${_id}`, { method: "DELETE" });
+      if (res.ok) { setIsDeleted(true); setStatus("available"); }
+    } catch (e) { console.error(e); }
   };
 
   const deletePet = async () => {
-    try {
-      const response = await fetch(`${Constants.API_BASE_URL}:${Constants.API_PORT}/api/pets/deletePet/${_id}`, { method: "DELETE" });
-      if (response.ok) setIsDeleted(true);
-    } catch (error) { console.error(error); }
+    if (window.confirm("¿Estás seguro de eliminar esta mascota?")) {
+      try {
+        const res = await fetch(`${Constants.API_BASE_URL}:${Constants.API_PORT}/api/pets/deletePet/${_id}`, { method: "DELETE" });
+        if (res.ok) setIsDeleted(true);
+      } catch (e) { console.error(e); }
+    }
   };
 
-  const navigate = useNavigate();
-  const editPet = () => navigate(`/agregarmascota?id=${pet._id}`);
+  const editPet = () => {
+    navigate(`/agregarmascota?id=${pet._id}`);
+  };
 
-  // ---------------------------
-  // RENDERIZADO MEJORADO
-  // ---------------------------
+  // --- ESTILOS DE BOTONES MODERNOS ---
+  const btnBase = {
+    flex: 1,
+    padding: '10px 15px',
+    border: 'none',
+    borderRadius: '8px',
+    color: 'white',
+    fontWeight: 'bold',
+    cursor: 'pointer',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: '5px',
+    transition: 'transform 0.2s, box-shadow 0.2s',
+    boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+  };
 
-  if (isDeleted && !statusUpdate === 'available') return null; // Ocultar si está borrado visualmente
+  const btnGreen = { ...btnBase, backgroundColor: '#28a745' }; // Verde (Editar / Adoptar)
+  const btnRed = { ...btnBase, backgroundColor: '#dc3545' };   // Rojo (Borrar / Rechazar)
+  const btnBlue = { ...btnBase, backgroundColor: '#007bff' };  // Azul (Reset)
+
+  if (isDeleted && statusUpdate !== 'available') return null;
 
   return (
     <div className={`petCard ${isDeleted ? "petCardDeleted" : ""}`} style={{ display: 'flex', flexDirection: 'column', height: '100%', position: 'relative' }}>
-      {message && <div style={{ position: 'absolute', top: 0, left: 0, right: 0, zIndex: 10 }}><Message text={message.text} type={message.type} /></div>}
+      {message && <div style={{ position: 'absolute', top: 0, width: '100%', zIndex: 10 }}><Message text={message.text} type={message.type} /></div>}
       
-      {/* Encabezado con Icono Grande */}
-      <div style={{ textAlign: 'center', marginBottom: '1rem' }}>
-        <div style={{ fontSize: '3rem', lineHeight: '1' }}>{getSpecieEmoji(specie)}</div>
-        <h3 style={{ margin: '0.5rem 0', fontSize: '1.4rem', color: '#333' }}>{name}</h3>
+      {/* Header */}
+      <div style={{ textAlign: 'center', marginBottom: '10px' }}>
+        <div style={{ fontSize: '3rem', lineHeight: 1 }}>{getSpecieEmoji(specie)}</div>
+        <h3 style={{ margin: '5px 0', color: '#333' }}>{name}</h3>
         {getStatusBadge(statusUpdate)}
       </div>
 
-      {/* Detalles en Grid */}
+      {/* Info Grid */}
       <div style={{ 
-        display: 'grid', 
-        gridTemplateColumns: '1fr 1fr', 
-        gap: '8px', 
-        backgroundColor: '#f8f9fa', 
-        padding: '10px', 
-        borderRadius: '8px',
-        fontSize: '0.9rem',
-        color: '#555',
-        marginBottom: '1rem'
+        display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px', 
+        backgroundColor: '#f8f9fa', padding: '10px', borderRadius: '8px', 
+        fontSize: '0.9rem', color: '#555', marginBottom: '10px'
       }}>
         <div><strong>Especie:</strong> {specie}</div>
         <div><strong>Raza:</strong> {race}</div>
         <div><strong>Sexo:</strong> {formatGender(gender)}</div>
         <div><strong>Edad:</strong> {age} años</div>
+        <div style={{ gridColumn: '1 / -1', borderTop: '1px dashed #ddd', paddingTop: '5px' }}>
+             <strong>Castrado:</strong> {isCastrated ? <span style={{color:'green'}}>Sí ✅</span> : <span style={{color:'#d9534f'}}>No ❌</span>}
+        </div>
       </div>
 
-      {/* Descripción */}
-      <div style={{ flex: 1, marginBottom: '1.5rem' }}>
-        <p style={{ fontStyle: 'italic', color: '#666', fontSize: '0.95rem', lineHeight: '1.4' }}>
-          "{description}"
-        </p>
+      <div style={{ flex: 1, marginBottom: '15px' }}>
+        <p style={{ fontStyle: 'italic', color: '#666', fontSize: '0.95rem' }}>"{description}"</p>
       </div>
 
-      {/* Botones de Acción */}
-      <div className="pet-card-actions" style={{ marginTop: 'auto', display: 'flex', gap: '8px', flexWrap: 'wrap', justifyContent: 'center' }}>
+      {/* ACTIONS FOOTER */}
+      <div className="pet-card-actions" style={{ marginTop: 'auto', display: 'flex', gap: '10px' }}>
         
-        {/* Lógica Admin para Solicitudes */}
+        {/* CASO 1: Admin gestionando adopciones */}
         {showAdoptButton && isAuthenticated() && isAdmin() && !isDeleted && (
-            <>
-            <button className="btn-approve" onClick={approveAdoption} title="Aprobar Adopción">✅ Aprobar</button>
-            <button className="btn-reject" onClick={rejectAdoption} title="Rechazar Solicitud">🚫 Rechazar</button>
-            <button className="btn-delete" onClick={deleteAdoption} title="Resetear Estado">🔄 Reset</button>
-            </>
+          <>
+             <button style={btnGreen} onClick={approveAdoption}>✅ Aprobar</button>
+             <button style={btnRed} onClick={rejectAdoption}>🚫 Rechazar</button>
+             <button style={btnBlue} onClick={deleteAdoption}>🔄 Reset</button>
+          </>
         )}
 
-        {/* Lógica Usuario para Adoptar */}
+        {/* CASO 2: Usuario Normal (Botón Adoptar) */}
         {showAdoptButton && isAuthenticated() && !isAdmin() && (
-            <button 
-              className="btn-adopt" 
-              onClick={() => adoptar(_id)} 
-              disabled={isAdopting || statusUpdate !== 'available'}
-              style={{ 
-                width: '100%', 
-                padding: '12px 20px', 
-                fontSize: '1.1rem', 
-                fontWeight: 'bold',
-                color: '#fff',
-                backgroundColor: statusUpdate === 'available' ? '#28a745' : '#6c757d',
-                border: 'none',
-                borderRadius: '8px',
-                cursor: statusUpdate === 'available' ? 'pointer' : 'not-allowed',
-                boxShadow: '0 4px 6px rgba(0,0,0,0.1)',
-                transition: 'all 0.3s ease',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                gap: '8px',
-                opacity: isAdopting ? 0.8 : 1
-              }}
-              onMouseEnter={(e) => {
-                if (statusUpdate === 'available' && !isAdopting) {
-                  e.currentTarget.style.transform = 'translateY(-2px)';
-                  e.currentTarget.style.boxShadow = '0 6px 8px rgba(0,0,0,0.15)';
-                  e.currentTarget.style.backgroundColor = '#218838';
-                }
-              }}
-              onMouseLeave={(e) => {
-                if (statusUpdate === 'available' && !isAdopting) {
-                  e.currentTarget.style.transform = 'translateY(0)';
-                  e.currentTarget.style.boxShadow = '0 4px 6px rgba(0,0,0,0.1)';
-                  e.currentTarget.style.backgroundColor = '#28a745';
-                }
-              }}
-            >
-            {isAdopting ? "⏳ Procesando..." : (statusUpdate === 'available' ? "❤️ ¡Quiero Adoptar!" : "🚫 No Disponible")}
-            </button>
+          <button 
+            style={{ ...btnGreen, width: '100%', opacity: (isAdopting || statusUpdate !== 'available') ? 0.6 : 1 }} 
+            onClick={() => adoptar(_id)}
+            disabled={isAdopting || statusUpdate !== 'available'}
+          >
+            {statusUpdate === 'available' ? "❤️ ¡Quiero Adoptar!" : "🚫 No Disponible"}
+          </button>
         )}
 
-        {/* Lógica Admin para CRUD (Editar/Borrar Mascota) */}
+        {/* CASO 3: Admin en lista de mascotas (EDITAR / BORRAR) */}
         {!showAdoptButton && isAuthenticated() && isAdmin() && !isDeleted && (
-            <>
-            <button onClick={editPet} style={{ flex: 1 }}>✏️ Editar</button>
-            <button className="btn-delete" onClick={deletePet} style={{ flex: 1 }}>🗑️ Borrar</button>
-            </>
+          <>
+            {/* Botón Editar VERDE y MODERNO */}
+            <button 
+                style={btnGreen} 
+                onClick={editPet}
+                onMouseEnter={(e) => e.currentTarget.style.transform = 'translateY(-2px)'}
+                onMouseLeave={(e) => e.currentTarget.style.transform = 'translateY(0)'}
+            >
+                ✏️ Editar
+            </button>
+            
+            {/* Botón Borrar ROJO y MODERNO */}
+            <button 
+                style={btnRed} 
+                onClick={deletePet}
+                onMouseEnter={(e) => e.currentTarget.style.transform = 'translateY(-2px)'}
+                onMouseLeave={(e) => e.currentTarget.style.transform = 'translateY(0)'}
+            >
+                🗑️ Eliminar
+            </button>
+          </>
         )}
       </div>
     </div>

@@ -1,34 +1,29 @@
-const adoptionsData = require('../data/adoptions');
+const adoptionsData = require("../data/adoptions.js");
 
 async function getAdoptions(req, res) {
-    try {
-        const result = await adoptionsData.getAdoptions();
-        res.json(result);
-    } catch (error) {
-        res.status(500).send("Error al obtener adopciones: " + error.message);
-    }
+	return adoptionsData.getAdoptions();
 }
 
 async function addAdoption(petId, adopterId) {
-    return await adoptionsData.addAdoption(petId, adopterId);
+	return adoptionsData.addAdoption(petId, adopterId);
 }
 
 async function approveAdoption(id) {
-    return await adoptionsData.approveAdoption(id);
-}
-
-async function rejectAdoption(id) {
-    return await adoptionsData.rejectAdoption(id);
+	return adoptionsData.approveAdoption(id);
 }
 
 async function deleteAdoption(id) {
-    return await adoptionsData.deleteAdoption(id);
+	return adoptionsData.deleteAdoption(id);
+}
+
+async function rejectAdoption(id) {
+	return adoptionsData.rejectAdoption(id);
 }
 
 module.exports = {
-    getAdoptions,
-    addAdoption,
-    approveAdoption,
-    rejectAdoption,
-    deleteAdoption
+    getAdoptions, // <--- Agregado
+	addAdoption,
+	approveAdoption,
+	deleteAdoption,
+	rejectAdoption,
 };

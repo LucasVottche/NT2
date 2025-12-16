@@ -107,5 +107,5 @@ router.get("/:id", async (req, res) => {
 		return res.status(500).json({ error: "Internal Server Error" });
 	}
 });
-
+router.get('/user/:userid', controller.getPetsByUserId);
 module.exports = router;

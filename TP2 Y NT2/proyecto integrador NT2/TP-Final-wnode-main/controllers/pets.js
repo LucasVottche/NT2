@@ -18,7 +18,8 @@ async function getPet(id) {
 // Controlador para crear una mascota
 async function addPet(req, res) {
 	try {
-		const { name, specie, race, gender, age, description, province } = req.body;
+        // 1. Agregamos isCastrated al destructuring
+		const { name, specie, race, gender, age, description, province, isCastrated } = req.body;
 
 		if (!(name && specie && race && gender && age && description && province)) {
 			throw new Error("Faltan campos obligatorios");
@@ -32,6 +33,8 @@ async function addPet(req, res) {
 			age,
 			description,
 			province,
+            // 2. Lo agregamos al objeto, default false si no viene
+            isCastrated: isCastrated === true, 
 			status: "available",
 		};
 
@@ -45,9 +48,21 @@ async function addPet(req, res) {
 async function updatePet(req, res) {
 	try {
 		const petId = req.params.id;
-		const { name, specie, race, gender, age, description, province } = req.body;
-		if (name && specie && race && gender && age && description && province) {
-			const pet = { name, specie, race, gender, age, description, province };
+        // 1. Agregamos isCastrated al destructuring
+		const { name, specie, race, gender, age, description, province, isCastrated } = req.body;
+		
+        if (name && specie && race && gender && age && description && province) {
+            // 2. Lo agregamos al objeto de actualización
+			const pet = { 
+                name, 
+                specie, 
+                race, 
+                gender, 
+                age, 
+                description, 
+                province,
+                isCastrated: isCastrated === true // Aseguramos booleano
+            };
 			const updatedPet = await pets.updatePet(petId, pet);
 			if (updatedPet) {
 				return updatedPet;
@@ -61,7 +76,6 @@ async function updatePet(req, res) {
 	}
 }
 
-// Controlador para eliminar una mascota por su ID
 async function deletePet(req, res) {
 	try {
 		const petId = req.params.id;
@@ -80,6 +94,16 @@ async function deletePet(req, res) {
 	}
 }
 
+async function getPetsByUserId(req, res) {
+    try {
+        const userId = req.params.userid; // Ojo, en express los params suelen ir en minúscula
+        const result = await pets.getPetsByUserId(userId);
+        res.json(result);
+    } catch (error) {
+        res.status(500).send("Error al obtener mis mascotas: " + error.message);
+    }
+}
+
 module.exports = {
 	getAllPets,
 	getPet,
@@ -88,4 +112,5 @@ module.exports = {
 	deletePet,
 	getAdoptables,
 	getAdopciones,
+	getPetsByUserId,
 };

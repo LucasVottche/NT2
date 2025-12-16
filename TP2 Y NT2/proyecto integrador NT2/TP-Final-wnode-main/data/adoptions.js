@@ -3,183 +3,173 @@ const { ObjectId } = require("mongodb");
 const constants = require("../lib/constants.js");
 const petsData = require("../data/pets.js");
 const usersData = require("../data/users.js");
+const emailService = require("../lib/emailService");
 
-// Mantenemos la conexión estándar por si en el futuro decides guardar un historial separado
 async function dataAccess() {
-	return await conn.dataAccess(constants.DATABASE, constants.ADOPTIONS);
+  return await conn.dataAccess(constants.DATABASE, constants.ADOPTIONS);
 }
 
-// SOLICITAR ADOPCIÓN (Pasa a estado 'awaiting')
+// GET: Traer adopciones para el Admin
+async function getAdoptions() {
+  // Traemos un número grande para listar todas
+  const pets = await petsData.getAdopciones(100, 0); 
+  return pets.pets; 
+}
+
+// SOLICITAR ADOPCIÓN
 async function addAdoption(petId, adopterId) {
-	try {
-		if (!petId || !adopterId) {
-			throw new Error("petId y adopterId son necesarios");
-		}
+  try {
+    if (!petId || !adopterId) throw new Error("Datos incompletos");
 
-		const pet = await petsData.getPet(petId);
-		const adopter = await usersData.getUser(adopterId);
+    const pet = await petsData.getPet(petId);
+    
+    // Obtenemos el usuario con validación
+    let adopter = null;
+    try {
+      adopter = await usersData.getUser(adopterId);
+    } catch (error) {
+      console.error("Error al buscar usuario en solicitud:", error);
+    }
 
-		if (!pet) {
-			throw new Error("La mascota no existe");
-		} else if (pet.status != "available") {
-			throw new Error("La mascota no está disponible");
-		} else if (!adopter) {
-			throw new Error("Usuario no encontrado");
-		} else {
-			const newAdoption = {
-				...pet, // Mantenemos los datos originales
-				status: "awaiting",
-				adopter: adopterId,
-			};
+    if (!pet) throw new Error("La mascota no existe");
+    if (pet.status !== "available") throw new Error("Mascota no disponible");
+    if (!adopter) throw new Error("Usuario no encontrado");
 
-			// Actualizamos usando la función de petsData
-			const petAdoption = await petsData.updatePet(petId, newAdoption);
+    const newAdoption = {
+      ...pet,
+      status: "awaiting",
+      adopter: adopterId,
+    };
 
-			// Manejo de respuesta compatible con updatePet
-			if (!petAdoption) {
-				const notUpdatedError = new Error("No se pudo actualizar la mascota");
-				notUpdatedError.status = 404;
-				throw notUpdatedError;
-			} else {
-				return {
-					status: 200,
-					message: "Solicitud de adopción enviada",
-					pet: newAdoption,
-				};
-			}
-		}
-	} catch (error) {
-		throw new Error("No se pudo realizar la adopción: " + error);
-	}
+    // Actualizamos la base de datos
+    const result = await petsData.updatePet(petId, newAdoption);
+
+    if (!result) throw new Error("No se pudo actualizar la mascota");
+
+    // Envío de Email (No bloqueante)
+    if (adopter && adopter.email && typeof emailService.sendAdoptionEmail === 'function') {
+      emailService.sendAdoptionEmail(
+        adopter.email, 
+        adopter.firstName || "Adoptante", 
+        pet.name
+      ).catch(e => console.error("Error mail solicitud:", e));
+    }
+
+    return { status: 200, message: "Solicitud enviada", pet: newAdoption };
+
+  } catch (error) {
+    throw error;
+  }
 }
 
-// APROBAR ADOPCIÓN (Pasa a estado 'adopted')
+// APROBAR ADOPCIÓN (Corregido para evitar Error 500)
 async function approveAdoption(id) {
-	try {
-		if (!id) {
-			throw new Error("El ID es necesario");
-		} else if (!ObjectId.isValid(id)) {
-			throw new Error("El ID no es válido");
-		}
+  try {
+    if (!id || !ObjectId.isValid(id)) throw new Error("ID inválido");
 
-		const pet = await petsData.getPet(id);
+    const pet = await petsData.getPet(id);
+    if (!pet) throw new Error("La mascota no existe");
+    if (pet.status !== "awaiting") throw new Error("No hay solicitud pendiente");
 
-		if (!pet) {
-			throw new Error("La mascota no existe");
-		} else if (pet.status == "adopted") {
-			throw new Error("La adopción ya fue aprobada anteriormente");
-		} else if (pet.status != "awaiting") {
-			throw new Error("La mascota no tiene una solicitud pendiente para aprobar");
-		} else {
-			const approveAdoption = {
-				...pet,
-				status: "adopted",
-				// El adopter ya viene seteado del paso anterior
-			};
+    // 1. Buscamos al adoptante de forma segura
+    // Usamos try/catch interno para que si el usuario no existe, NO falle la aprobación
+    let adopter = null;
+    if (pet.adopter) {
+        try {
+            adopter = await usersData.getUser(pet.adopter);
+        } catch (e) {
+            console.warn("Advertencia: No se pudo recuperar datos del adoptante, pero se aprobará igual.");
+        }
+    }
 
-			const petAdoption = await petsData.updatePet(id, approveAdoption);
+    const approveAdoption = {
+      ...pet,
+      status: "adopted",
+    };
 
-			if (!petAdoption) {
-				throw new Error("No se pudo actualizar la mascota");
-			} else {
-				return {
-					status: 200,
-					message: "Adopción aprobada exitosamente",
-					pet: approveAdoption,
-				};
-			}
-		}
-	} catch (error) {
-		throw new Error("Error al aprobar adopción: " + error);
-	}
+    // 2. Actualizamos la BD (Paso Crítico)
+    const result = await petsData.updatePet(id, approveAdoption);
+
+    if (!result) throw new Error("Error al actualizar mascota en base de datos");
+
+    // 3. Enviamos el Email (Paso Secundario)
+    // Verificamos explícitamente que la función exista para evitar crashes
+    if (adopter && adopter.email && typeof emailService.sendApprovalEmail === 'function') {
+      emailService.sendApprovalEmail(
+        adopter.email,
+        adopter.firstName || "Adoptante",
+        pet.name
+      ).catch(e => console.error("Error asíncrono enviando mail aprobación:", e));
+    }
+
+    return { status: 200, message: "Adopción aprobada", pet: approveAdoption };
+
+  } catch (error) {
+    // Si falla algo crítico, lanzamos el error para que el controller mande el 500 real
+    throw error;
+  }
 }
 
-// RECHAZAR ADOPCIÓN (Pasa a estado 'rejected')
+// RECHAZAR ADOPCIÓN
 async function rejectAdoption(id) {
-	try {
-		if (!id || !ObjectId.isValid(id)) {
-			throw new Error("ID inválido");
-		}
+  try {
+    if (!id || !ObjectId.isValid(id)) throw new Error("ID inválido");
 
-		const pet = await petsData.getPet(id);
+    const pet = await petsData.getPet(id);
+    if (!pet) throw new Error("La mascota no existe");
 
-		if (!pet) {
-			throw new Error("La mascota no existe");
-		} else if (pet.status == "rejected") {
-			throw new Error("La adopción ya fue rechazada");
-		} else {
-			const rejectedAdoption = {
-				...pet,
-				status: "rejected",
-			};
+    const rejectedAdoption = {
+      ...pet,
+      status: "rejected",
+    };
 
-			const petAdoption = await petsData.updatePet(id, rejectedAdoption);
+    const result = await petsData.updatePet(id, rejectedAdoption);
 
-			if (!petAdoption) {
-				throw new Error("No se pudo actualizar la mascota");
-			} else {
-				return {
-					status: 200,
-					message: "Adopción rechazada",
-					pet: rejectedAdoption,
-				};
-			}
-		}
-	} catch (error) {
-		throw new Error("Error al rechazar adopción: " + error);
-	}
+    if (!result) throw new Error("Error al actualizar");
+
+    return { status: 200, message: "Adopción rechazada", pet: rejectedAdoption };
+
+  } catch (error) {
+    throw error;
+  }
 }
 
-// BORRAR/RESETEAR ADOPCIÓN (Vuelve a estado 'available')
+// BORRAR/RESETEAR ADOPCIÓN
 async function deleteAdoption(id) {
-	try {
-		if (!id || !ObjectId.isValid(id)) {
-			throw new Error("ID inválido");
-		}
+  try {
+    if (!id || !ObjectId.isValid(id)) throw new Error("ID inválido");
 
-		const pet = await petsData.getPet(id);
+    const pet = await petsData.getPet(id);
+    if (!pet) throw new Error("La mascota no existe");
 
-		if (!pet) {
-			throw new Error("La mascota no existe");
-		} else if (pet.status == "available") {
-			throw new Error("La adopción ya está borrada (la mascota está disponible)");
-		} else {
-			// Reseteamos la mascota
-			const resetPet = {
-				name: pet.name,
-				specie: pet.specie,
-				race: pet.race,
-				gender: pet.gender,
-				age: pet.age,
-				description: pet.description,
-				province: pet.province,
-				status: "available",
-				// Removemos el campo adopter
-				adopter: null 
-			};
+    const resetPet = {
+      name: pet.name,
+      specie: pet.specie,
+      race: pet.race,
+      gender: pet.gender,
+      age: pet.age,
+      description: pet.description,
+      province: pet.province,
+      status: "available",
+      adopter: null, // Limpiamos el campo adopter
+      isCastrated: pet.isCastrated // Mantenemos el estado de castración
+    };
 
-			// Nota: updatePet usa $set, para borrar adopter en Mongo a veces se necesita $unset,
-			// pero setearlo a null suele funcionar para la lógica del frontend.
-			const petAdoption = await petsData.updatePet(id, resetPet);
+    const result = await petsData.updatePet(id, resetPet);
 
-			if (!petAdoption) {
-				throw new Error("No se pudo resetear la mascota");
-			} else {
-				return {
-					status: 200,
-					message: "Adopción reseteada, mascota disponible nuevamente",
-					pet: resetPet,
-				};
-			}
-		}
-	} catch (error) {
-		throw new Error("Error al borrar adopción: " + error);
-	}
+    if (!result) throw new Error("Error al resetear");
+
+    return { status: 200, message: "Adopción reseteada", pet: resetPet };
+
+  } catch (error) {
+    throw error;
+  }
 }
 
 module.exports = {
-	addAdoption,
-	approveAdoption,
-	rejectAdoption,
-	deleteAdoption,
+  getAdoptions,
+  addAdoption,
+  approveAdoption,
+  rejectAdoption,
+  deleteAdoption,
 };
