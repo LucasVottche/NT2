@@ -68,3 +68,23 @@ Flujo típico:
         └── lib/             # Utilidades, servicios, constantes
 
 
+🧰 Stack tecnológico
+Backend
+
+Node.js + Express
+
+MongoDB (local o Atlas)
+
+Joi (validación)
+
+Ruteo por módulos + Controllers
+
+Frontend
+
+React
+
+React Router
+
+Estilos en assets/ (y/o CSS Modules según tu implementación)
+
+lib/ para helpers, services, constantes
